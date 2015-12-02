@@ -30,6 +30,9 @@ public class Constant {
 	public static final String XUE_XIN_USERNAME_OR_PASS_ERROR = "xue_xin_user_or_pass_error";
 	public static final String TIE_BA_BASE_URL = "http://tieba.baidu.com";
 	public static final String TIE_BA_START_URL = "http://tieba.baidu.com/f/index/forumpark?cn=%B1%B1%BE%A9%D4%BA%D0%A3&ci=0&pcn=%B8%DF%B5%C8%D4%BA%D0%A3&pci=0&ct=1&rn=20&pn=1";
+	public static final String USER_LOCATION ="user_location";
+    public static final String PUBLISH_TEXT ="publish_text";
+    public static final String USER_ID = "user_id";
 	
 	public static final String getImgPath(HttpServlet servelt){
 		return servelt.getServletContext().getRealPath("/");

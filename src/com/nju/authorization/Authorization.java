@@ -2,6 +2,7 @@ package com.nju.authorization;
 
 import com.nju.util.Constant;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -61,11 +62,13 @@ public class Authorization {
 	 * @return 
 	 */
 	public String getHomeHtml(String url){
+		 
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
 		try {
 			Response response = client.newCall(request).execute();
+			
 			if(response.code() == Constant.HTTP_OK) {
 				return response.body().string();
 			}
@@ -118,6 +121,11 @@ public class Authorization {
 				.url(Constant.XUE_XIN_LOGIN_URL+Constant.XUE_XIN_SERVICE)
 				.post(formBody)
 				.build();
+		Headers heads =request.headers();
+		logger.error("heads==size"+heads.names().size());
+		for(String name:heads.names()){
+			logger.error("NAME=="+name+"==value=="+heads.get(name));
+		}
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.code() == Constant.HTTP_OK) {
@@ -183,6 +191,7 @@ public class Authorization {
 	 * @throws IOException
 	 */
 	public String getXueXinDoc(Document document) {
+		System.out.println(document.text());
 		Element regrightDiv = document.getElementById("regrightBG");
 		Elements elements = regrightDiv.getElementsByTag("a");
 		String url ="";
@@ -241,7 +250,7 @@ public class Authorization {
 		Response response = client.newCall(request).execute();
 		String content = response.body().string();
 		Document doc = Jsoup.parse(content);
-		logger.info(doc.getElementsByTag("script").text());
+		//logger.info(doc.getElementsByTag("script").text());
 		return doc;
 	}
 
@@ -347,7 +356,7 @@ public class Authorization {
 	public ArrayList<UserInfo> getUserInfo2(Document document) throws IOException {
 		Document doc = getTabDocElement(document);
 		Element div = doc.getElementById("tabs");
-		logger.error(div.html());
+		//logger.error(div.html());
 		Elements divChildren = div.children();
 		Element ul = divChildren.first();
 		Elements ulChidren = ul.children();
@@ -361,7 +370,7 @@ public class Authorization {
 		}
 
 		Elements tabsDiv = doc.getElementsByClass("tabsDiv");
-		logger.info(tabsDiv.html());
+		//logger.info(tabsDiv.html());
 		for(int j =0 ;j < tabsDiv.size();j++){
 			Element element = tabsDiv.get(j);
 			UserInfo info = userInfoList.get(j);

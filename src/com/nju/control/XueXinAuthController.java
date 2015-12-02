@@ -46,6 +46,7 @@ public class XueXinAuthController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		PrintWriter out = response.getWriter();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -54,7 +55,7 @@ public class XueXinAuthController extends HttpServlet {
 		
 		XueXinService service = new XueXinService(authorization);
 		SchoolFriendGson gson = SchoolFriendGson.newInstance();
-		if(captcha ==null || captcha.equals("")){
+		if(captcha ==null || captcha.equals("")){ 
 			String result = service.login(username, password,label_id);
 			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
 				out.print(result);
@@ -90,14 +91,17 @@ public class XueXinAuthController extends HttpServlet {
 	
 	private void loginExe(SchoolFriendGson gson,String result,HttpServletRequest request,HttpServletResponse response, PrintWriter out) throws IOException, ServletException {
 		Map<Object, Object> resultMap =gson.fromJsonToMap(result);
+	 
 		if(resultMap.containsKey(Constant.XUE_XIN_CAPTCHA)) {
 			String IT = authorization.getItT(resultMap.get(Constant.XUE_XIN_CAPTCHA).toString());
+			 
 			request.getSession().setAttribute(Constant.XUE_XIN_IT,IT);
 			//byte[] captchaBytes = authorization.getCaptcha("https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503");
 			//Map<String,byte[]> infoMap = new HashMap<String,byte[]>();
 			//infoMap.put(Constant.XUE_XIN_CAPTCHA,captchaBytes);
 			//out.print(result);
-			request.getRequestDispatcher("auth.jsp?img=https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503").forward(request, response);
+			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++"+IT);
+			request.getRequestDispatcher("auth.jsp?img=https://account.chsi.com.cn/passport/captcha.image"+Constant.XUE_XIN_SERVICE+"&id="+Math.random()*1000000000).forward(request, response);
 		} else {
 			out.print(result);
 		}

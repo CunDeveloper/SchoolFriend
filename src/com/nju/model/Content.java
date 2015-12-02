@@ -1,5 +1,6 @@
 package com.nju.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Content {
@@ -7,11 +8,14 @@ public class Content {
 	private int id;
 	private int user_id;
 	private String content;
-	private List<String> imageList;
+	private List<String> imageList = new ArrayList<String>();
 	private int is_contain_image;
 	private String praiceUserName;/*要废掉*/
 	private List<Praise> praiseList;
 	private List<Comment> commentList;
+	private String userLocation;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -59,6 +63,12 @@ public class Content {
 	}
 	public void setPraiseList(List<Praise> praiseList) {
 		this.praiseList = praiseList;
+	}
+	public String getUserLocation() {
+		return userLocation;
+	}
+	public void setUserLocation(String userLocation) {
+		this.userLocation = userLocation;
 	}
 	 
 	

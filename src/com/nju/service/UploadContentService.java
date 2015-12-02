@@ -27,7 +27,7 @@ public class UploadContentService {
 		 
 		Connection conn = null;
 		int result = Constant.SQL_EXE_FALIURE;
-		String sql ="insert into content(cont,user_id,is_contain_image,date) values(?,?,?,now())";
+		String sql ="insert into content(cont,user_id,is_contain_image,date,user_location) values(?,?,?,now(),?)";
 		PreparedStatement stmt = null;
 		try {
 			conn = C3PODataSource.getConn();
@@ -35,6 +35,7 @@ public class UploadContentService {
 			stmt.setString(1,content.getContent());
 			stmt.setInt(2,content.getUser_id());
 			stmt.setInt(3,content.getImageList().size());
+			stmt.setString(4,content.getUserLocation());
 		    stmt.executeUpdate();
 		    ResultSet set = stmt.getGeneratedKeys();
 		    if(set.next()) {
