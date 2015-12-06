@@ -47,6 +47,12 @@ public class TieBa {
 		}
 		return infosUrl;
 	}
+	/**
+	 * 爬取学校的信息，包括图标等。
+	 * @param html
+	 * @return
+	 * @throws IOException
+	 */
 	public String  baInfo(String html) throws IOException{
 		Document document = Jsoup.parse(html);
 		Elements elements = document.getElementsByClass("ba_info");
@@ -64,7 +70,12 @@ public class TieBa {
 		}
 		return "";
 	}
-	
+	/**
+	 * 获取各个省份的第一个贴吧url
+	 * @param html
+	 * @return
+	 * @throws IOException
+	 */
 	public List<TieBaSchoolInfo> schoolsUrl(String html) throws IOException {
 		List<TieBaSchoolInfo> schoolInfos = new ArrayList<TieBaSchoolInfo>();
 		Document document = Jsoup.parse(html);
@@ -85,30 +96,44 @@ public class TieBa {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		TieBa tieBa = new TieBa();
-		//tieBa.test();
+		TieBaService service = new TieBaService();
 		String html = tieBa.html(TEST_URL);
 		List<TieBaSchoolInfo> schoolUrls = tieBa.schoolsUrl(html);
+		tieBa.baInfo(html);
 //		new TieBaService().save(schoolUrls);
-		TieBaService service = new TieBaService();
+		
+		
+	}
+	private void saveAllUrls(List<TieBaSchoolInfo> schoolUrls,TieBaService service) throws IOException {
 		for(TieBaSchoolInfo info:schoolUrls){
 			int id=service.queryId(info.getName());
-			String tempHtml = tieBa.html(info.getFirstUrl());
+			String tempHtml = html(info.getFirstUrl());
 			//System.out.println(info.getFirstUrl());
-			List<String> urlInfos = tieBa.getInfoUrl(tempHtml);
-			Set set = new HashSet();
-			if(urlInfos.size()>2){
-				int last = urlInfos.size()-1;
-				int third = last-2;
-				//String lastStr = urlInfos.get(last);
-				String thirdStr = urlInfos.get(third);
-				int i = thirdStr.lastIndexOf("=")+1;
-				int j = thirdStr.length();
-				String subStr = thirdStr.substring(i, j);
-				System.out.println(subStr);
-			}
-			//System.out.println(urlInfos.size()+"==");
-			service.saveAllUrls(urlInfos, id);
+			List<String> urlInfos = getInfoUrl(tempHtml);
+		    List<String> allUrls = generateAllUrls(urlInfos);
+			service.saveAllUrls(allUrls, id);
 		}
+	}
+	/**
+	 * 获取所有高等院校的贴吧urls
+	 * @param urlInfos
+	 * @return
+	 */
+	private  List<String> generateAllUrls(List<String> urlInfos) {
+	    List<String> allUrls = new ArrayList<String>();
+	    if(urlInfos.size()>=1) {
+	    	int last = urlInfos.size()-1;
+			String lastStr = urlInfos.get(last);
+			int subLen = lastStr.lastIndexOf("=")+1;
+			int length = lastStr.length();
+			String strUrlNum = lastStr.substring(subLen,length);
+			String urlStr = lastStr.substring(0,subLen);
+			int urlNum = Integer.valueOf(strUrlNum);
+		    for(int i =2;i<=urlNum;i++) {
+		    	allUrls.add(BASE_URL+urlStr+i);
+		    }
+	    }
+	    return allUrls;
 	}
 
 }
