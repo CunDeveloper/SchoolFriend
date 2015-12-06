@@ -2,25 +2,22 @@ package com.nju.authorization;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.nju.model.TieBaSchoolInfo;
+import com.nju.model.SchoolInfo;
+import com.nju.model.TieBaProvinceSchoolInfo;
 import com.nju.service.TieBaService;
+import com.nju.util.Constant;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 public class TieBa {
-
-	private static final String BASE_URL ="http://tieba.baidu.com";
-	private static final String TEST_URL = "http://tieba.baidu.com/f/index/forumpark?cn=%B1%B1%BE%A9%D4%BA%D0%A3&ci=0&pcn=%B8%DF%B5%C8%D4%BA%D0%A3&pci=0&ct=1&rn=20&pn=1";
+	
 	private OkHttpClient client = null;
 	
 	public TieBa(){
@@ -35,7 +32,12 @@ public class TieBa {
 		String html = response.body().string();
 		return html;
 	}
-	public List<String> getInfoUrl(String html) {
+	/**
+	 * 获取页面下面的学校链接
+	 * @param html
+	 * @return
+	 */
+	public List<String> getSchoolUrl(String html) {
 		List<String> infosUrl = new ArrayList<String>();
 		Document document = Jsoup.parse(html);
 		Elements pageElements = document.getElementsByClass("pagination");
@@ -53,22 +55,30 @@ public class TieBa {
 	 * @return
 	 * @throws IOException
 	 */
-	public String  baInfo(String html) throws IOException{
+	public List<SchoolInfo>  baInfo(String html) throws IOException{
 		Document document = Jsoup.parse(html);
 		Elements elements = document.getElementsByClass("ba_info");
+		List<SchoolInfo> schoolInfos = new ArrayList<SchoolInfo>();
+		SchoolInfo schoolInfo = null;
 		for (Element element:elements) {
+			schoolInfo = new SchoolInfo();
 			Elements eleImg = element.getElementsByClass("ba_pic");
 			for(Element img:eleImg) {
-				System.out.println(img.attr("src"));
+				schoolInfo.setIconUrl(img.attr("src"));
 			}
-			String str = element.text();
-			String[] strs = str.split(" ");
-			for(String stra:strs){
-				System.out.println(stra);
+			Elements eleName = element.getElementsByClass("ba_name");
+			for(Element name:eleName) {
+				String schoolName = name.text();
+				
+				schoolInfo.setName(schoolName.substring(0,schoolName.length()-1));
 			}
-			 
+			Elements eleDesc = element.getElementsByClass("ba_desc");
+			for(Element desc:eleDesc) {
+				schoolInfo.setDesc(desc.text());
+			}
+			schoolInfos.add(schoolInfo);
 		}
-		return "";
+		return schoolInfos;
 	}
 	/**
 	 * 获取各个省份的第一个贴吧url
@@ -76,16 +86,16 @@ public class TieBa {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<TieBaSchoolInfo> schoolsUrl(String html) throws IOException {
-		List<TieBaSchoolInfo> schoolInfos = new ArrayList<TieBaSchoolInfo>();
+	public List<TieBaProvinceSchoolInfo>  getProvinceSchoolInfos(String html) throws IOException {
+		List<TieBaProvinceSchoolInfo> schoolInfos = new ArrayList<TieBaProvinceSchoolInfo>();
 		Document document = Jsoup.parse(html);
 		Elements elements = document.getElementsByClass("class_list");
-		TieBaSchoolInfo schoolInfo = null;
+		TieBaProvinceSchoolInfo schoolInfo = null;
 		for (Element ulEle:elements) {
 			Elements aEle = ulEle.getElementsByTag("a");
 			for(Element a:aEle){
-				schoolInfo = new TieBaSchoolInfo();
-				schoolInfo.setFirstUrl(BASE_URL+a.attr("href"));
+				schoolInfo = new TieBaProvinceSchoolInfo();
+				schoolInfo.setFirstUrl(Constant.TIE_BA_BASE_URL+a.attr("href"));
 				schoolInfo.setName(a.text());
 				schoolInfos.add(schoolInfo);
 			}
@@ -93,29 +103,24 @@ public class TieBa {
 		return schoolInfos;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		TieBa tieBa = new TieBa();
-		TieBaService service = new TieBaService();
-		String html = tieBa.html(TEST_URL);
-		List<TieBaSchoolInfo> schoolUrls = tieBa.schoolsUrl(html);
-		tieBa.baInfo(html);
-//		new TieBaService().save(schoolUrls);
-		
-		
-	}
-	private void saveAllUrls(List<TieBaSchoolInfo> schoolUrls,TieBaService service) throws IOException {
-		for(TieBaSchoolInfo info:schoolUrls){
+	/**
+	 * 保存所有高等院校的URL
+	 * @param schoolUrls
+	 * @param service
+	 * @throws IOException
+	 */
+	private void saveAllUrls(List<TieBaProvinceSchoolInfo> provoinceSchoolInfos,TieBaService service) throws IOException {
+		for(TieBaProvinceSchoolInfo info:provoinceSchoolInfos){
 			int id=service.queryId(info.getName());
 			String tempHtml = html(info.getFirstUrl());
 			//System.out.println(info.getFirstUrl());
-			List<String> urlInfos = getInfoUrl(tempHtml);
+			List<String> urlInfos = getSchoolUrl(tempHtml);
 		    List<String> allUrls = generateAllUrls(urlInfos);
 			service.saveAllUrls(allUrls, id);
 		}
 	}
 	/**
-	 * 获取所有高等院校的贴吧urls
+	 * 生成所有高等院校的贴吧urls
 	 * @param urlInfos
 	 * @return
 	 */
@@ -130,10 +135,43 @@ public class TieBa {
 			String urlStr = lastStr.substring(0,subLen);
 			int urlNum = Integer.valueOf(strUrlNum);
 		    for(int i =2;i<=urlNum;i++) {
-		    	allUrls.add(BASE_URL+urlStr+i);
+		    	allUrls.add(Constant.TIE_BA_BASE_URL+urlStr+i);
 		    }
 	    }
 	    return allUrls;
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		TieBa tieBa = new TieBa();
+		TieBaService service = new TieBaService();
+		String html = tieBa.html(Constant.TIE_BA_START_URL);
+		
+		List<TieBaProvinceSchoolInfo> provinceSchoolInfos = tieBa.getProvinceSchoolInfos(html);
+		tieBa.saveAllUrls(provinceSchoolInfos, service);
+//		for(TieBaProvinceSchoolInfo info:provinceSchoolInfos){
+//			String tempHtml = tieBa.html(info.getFirstUrl());
+//			List<String> tempSchoolUrls = tieBa.getInfoUrl(tempHtml);
+//			int id=service.queryId(info.getName());
+//			service.saveAllUrls(tempSchoolUrls, id);
+//		}
+		for(TieBaProvinceSchoolInfo info:provinceSchoolInfos) {
+			List<SchoolInfo> schoolInfos = tieBa.baInfo(tieBa.html(info.getFirstUrl()));
+			int id=service.queryId(info.getName());
+			service.saveScholInfo(schoolInfos, id);
+			List<String> urls = service.queryUrlsById(id);
+			for(String str:urls){
+				schoolInfos = tieBa.baInfo(tieBa.html(str));
+				service.saveScholInfo(schoolInfos,id);
+			}
+		}
+//		List<SchoolInfo> schoolInfos =tieBa.baInfo(html);
+//		for(SchoolInfo schoolInfo:schoolInfos) {
+//			System.out.println("name="+schoolInfo.getName()+"desc="+schoolInfo.getDesc()+"icon="+schoolInfo.getIconUrl());
+//		}
+//		service.saveScholInfo(schoolInfos, 10);
+////		new TieBaService().save(schoolUrls);
+	}
+	
 }

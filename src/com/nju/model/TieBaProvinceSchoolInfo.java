@@ -1,6 +1,6 @@
 package com.nju.model;
 
-public class TieBaSchoolInfo {
+public class TieBaProvinceSchoolInfo {
 	private int id;
 	private String name;
 	private String firstUrl;

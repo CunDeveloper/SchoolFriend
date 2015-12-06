@@ -4,15 +4,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.nju.model.TieBaSchoolInfo;
+import com.nju.model.SchoolInfo;
+import com.nju.model.TieBaProvinceSchoolInfo;
 import com.nju.util.C3PODataSource;
 import com.nju.util.Constant;
 
 public class TieBaService {
 
-	public int save(List<TieBaSchoolInfo> schoolInfos) {
+	public int saveProvinceSchoolInfo(List<TieBaProvinceSchoolInfo> schoolInfos) {
 		int result = Constant.SQL_EXE_FALIURE;
 		Connection conn = null;
 		String sql ="insert into schoolUrls(firstUrl,name) values(?,?)";
@@ -20,9 +22,43 @@ public class TieBaService {
 			conn = C3PODataSource.getConn();
 			conn.setAutoCommit(false);
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			for(TieBaSchoolInfo schoolInfo:schoolInfos){
+			for(TieBaProvinceSchoolInfo schoolInfo:schoolInfos){
 				stmt.setString(1,schoolInfo.getFirstUrl());
 				stmt.setString(2,schoolInfo.getName());
+				stmt.addBatch();
+			}
+			stmt.executeBatch();
+			conn.setAutoCommit(true); 
+			result = Constant.SQL_EXE_OK;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		finally{
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return result; 
+	}
+	
+	public int saveScholInfo(List<SchoolInfo> schoolInfos,int provinceId) {
+		int result = Constant.SQL_EXE_FALIURE;
+		Connection conn = null;
+		String sql ="insert into schoolInfo(name,iconUrl,descption,provinceId) values(?,?,?,?)";
+		try {
+			conn = C3PODataSource.getConn();
+			conn.setAutoCommit(false);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			for(SchoolInfo schoolInfo:schoolInfos){
+				stmt.setString(1,schoolInfo.getName());
+				stmt.setString(2,schoolInfo.getIconUrl());
+				stmt.setString(3,schoolInfo.getDesc());
+				stmt.setInt(4,provinceId);
 				stmt.addBatch();
 			}
 			stmt.executeBatch();
@@ -71,6 +107,35 @@ public class TieBaService {
 		}
 		return result; 
 	}
+	
+	public List<String> queryUrlsById(int school_id) {
+		Connection conn = null;
+		List<String> urls = new ArrayList<String>();
+		String sql ="select url from schoolsUrl where school_id=?";
+		try {
+			conn = C3PODataSource.getConn();
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,school_id);
+			ResultSet set =stmt.executeQuery();
+			while(set.next()){
+				urls.add(set.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		finally{
+			try {
+				if (conn!=null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return urls; 
+	}
+
 	
 	public int saveAllUrls(List<String> urlInfos,int id) {
 		int result = Constant.SQL_EXE_FALIURE;
