@@ -56,35 +56,51 @@ public class XueXinAuthController extends HttpServlet {
 		SchoolFriendGson gson = SchoolFriendGson.newInstance();
 		if(captcha ==null || captcha.equals("")){
 			String result = service.login(username, password,label_id);
-			Map resultMap =gson.fromJsonToMap(result);
-			if(resultMap.containsKey(Constant.XUE_XIN_CAPTCHA)) {
-				String IT = authorization.getIt(resultMap.get(Constant.XUE_XIN_CAPTCHA).toString());
-				request.getSession().setAttribute(Constant.XUE_XIN_IT,IT);
-				byte[] captchaBytes = authorization.getCaptcha("https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503");
-				Map<String,byte[]> infoMap = new HashMap<String,byte[]>();
-				infoMap.put(Constant.XUE_XIN_CAPTCHA,captchaBytes);
-				out.print(gson.toJson(infoMap));
-				//request.getRequestDispatcher("auth.jsp?img=https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503").forward(request, response);
+			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
+				out.print(result);
+			} else{
+				loginExe(gson,result,request,response,out);
 			}
+			
 		}
 		else{
-			String htmlf = authorization.postFormWithCaptcha(request.getSession().getAttribute(Constant.XUE_XIN_IT).toString(), username, password,captcha);
-			System.out.println(request.getSession().getAttribute(Constant.XUE_XIN_IT));
-			Document doc = authorization.getXueXinDoc(htmlf);
-			if (doc != null && authorization.validate(htmlf) == 0) {
-				ArrayList<UserInfo> lists = authorization.getUserInfo2(doc);
-				for (UserInfo info : lists) {
-					System.out.println(info.getFenYuan()+"=="+info.getYuanXiaoName()
-					+"=="+info.getMajor()+"=="+info.getDate());
-				}
+			String result = service.loginWithCaptcha(request.getSession().getAttribute(Constant.XUE_XIN_IT).toString(), username, password, captcha, label_id);
+			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
+				out.print(result);
+			} else{
+				loginExe(gson,result,request,response,out);
 			}
-			else{
-				logger.info("用户名或者密码错误");
-			}
-			 
+//			String htmlf = authorization.postFormWithCaptcha(request.getSession().getAttribute(Constant.XUE_XIN_IT).toString(), username, password,captcha);
+//			System.out.println(htmlf);
+//			Document doc = authorization.getXueXinDoc(htmlf);
+//			if (doc != null) {
+//				ArrayList<UserInfo> lists = authorization.getUserInfo2(doc);
+//				for (UserInfo info : lists) {
+//					System.out.println(info.getFenYuan()+"=="+info.getYuanXiaoName()
+//					+"=="+info.getMajor()+"=="+info.getDate());
+//				}
+//			}
+//			else{
+//				logger.info("用户名或者密码错误");
+//			}
 		}
 		out.flush();
 		out.close();
+	}
+	
+	private void loginExe(SchoolFriendGson gson,String result,HttpServletRequest request,HttpServletResponse response, PrintWriter out) throws IOException, ServletException {
+		Map<Object, Object> resultMap =gson.fromJsonToMap(result);
+		if(resultMap.containsKey(Constant.XUE_XIN_CAPTCHA)) {
+			String IT = authorization.getItT(resultMap.get(Constant.XUE_XIN_CAPTCHA).toString());
+			request.getSession().setAttribute(Constant.XUE_XIN_IT,IT);
+			//byte[] captchaBytes = authorization.getCaptcha("https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503");
+			//Map<String,byte[]> infoMap = new HashMap<String,byte[]>();
+			//infoMap.put(Constant.XUE_XIN_CAPTCHA,captchaBytes);
+			//out.print(result);
+			request.getRequestDispatcher("auth.jsp?img=https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503").forward(request, response);
+		} else {
+			out.print(result);
+		}
 	}
 
 }

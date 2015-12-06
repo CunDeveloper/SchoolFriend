@@ -24,38 +24,75 @@ public class XueXinService {
 		this.authorization = mauthoriztion;
 	}
 	private static Logger logger = Logger.getLogger(XueXinService.class);
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @param label_id
+	 * @return Constant.HTTP_ERROR
+	 *         Constant.HTTP_URL_ERROR
+	 *         
+	 * @throws IOException
+	 */
 	
 	public String login(String username,String password,String label_id) throws IOException{
-		String result ="";
-		String it = authorization.getIt();
+		String homeHtml = authorization.getHomeHtml(Constant.XUE_XIN_LOGIN_URL);
+		if(homeHtml.equals(Constant.HTTP_ERROR) || homeHtml.equals(Constant.HTTP_URL_ERROR)) {
+			return homeHtml;
+		} else{
+			 Document doc = authorization.parseHtml(homeHtml);
+			 String it = authorization.getIt(doc);
+			 return exeLogin(it,username,password,label_id);
+		}
+		
+	}
+	
+	public String loginWithCaptcha(String it,String username,String password,String captcha,String label_id) throws IOException {
+		String html = authorization.postFormWithCaptcha(it, username, password,captcha);
+		if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_URL_ERROR)) {
+			return html;
+		} else {	
+			return saveUserInfo(html,label_id);
+		}
+	}
+	
+	private String exeLogin(String it,String username,String password,String label_id) throws IOException {
+		
 		String html = authorization.postForm(it, username, password);
-		Document doc = authorization.getDocument(html);
-		Element captchaEle = doc.getElementById("captcha");
+		if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_URL_ERROR)) {
+			return html;
+		} else{
+			return saveUserInfo(html,label_id);
+		}
+		
+	}
+	
+	private String saveUserInfo(String html,String label_id) throws IOException {
+		Document doc = authorization.parseHtml(html);
 		SchoolFriendGson gson = SchoolFriendGson.newInstance();
-		if(captchaEle !=null){
+		if(authorization.isErrorUsernameOrPassword(doc)) {
+			Map<String,String> infoMap = new HashMap<String,String>();
+			infoMap.put(Constant.XUE_XIN_USERNAME_OR_PASS_ERROR,Constant.USERNAME_OR_PASS_ERROR);
+			return gson.toJson(infoMap);
+		} else if(authorization.isNeedCaptcha(doc)){
 			Map<String,String> info = new HashMap<String,String>();
 			info.put(Constant.XUE_XIN_CAPTCHA,html);
 			return gson.toJson(info);
 		} else{
-			
-			UserInfoDao userInfo = new UserInfoDaoImpl();
-			if (doc != null && authorization.validate(html) == 0) {
-				System.out.println(html);
+				UserInfoDao userInfo = new UserInfoDaoImpl();
 				ArrayList<UserInfo> lists = authorization.getUserInfo(doc);
-				for (UserInfo info:lists) {
-					userInfo.save(info, label_id);
+				if(lists==null) {
+					Map<String,String> infoMap = new HashMap<String,String>();
+					infoMap.put(Constant.XUE_XIN_USERNAME_OR_PASS_ERROR,Constant.USERNAME_OR_PASS_ERROR);
+					return gson.toJson(infoMap);
+				} else{
+					for (UserInfo info:lists) {
+						userInfo.save(info, label_id);
+					}
+					Map<String,List<UserInfo>> infoMap = new HashMap<String,List<UserInfo>>();
+					infoMap.put(Constant.XUE_XIN_INFO, lists);
+					return gson.toJson(infoMap);
 				}
-				Map<String,List<UserInfo>> infoMap = new HashMap<String,List<UserInfo>>();
-				infoMap.put(Constant.XUE_AUTH, lists);
-				result = gson.toJson(infoMap);
-				logger.info(result);
-			}
-			else{
-				Map<String,String> infoMap = new HashMap<String,String>();
-				infoMap.put(Constant.XUE_AUTH,Constant.USERNAME_OR_PASS_ERROR);
-				result = gson.toJson(infoMap);
-			}
-		}
-		return result;
-	}
+		   }
+	 }
 }

@@ -20,6 +20,14 @@ public class Constant {
 	public static final String XUE_AUTH ="auth";
 	public static final String XUE_XIN_CAPTCHA ="captcha";
 	public static final String XUE_XIN_IT = "xue_xin_it";
+	public static final String XUE_XIN_BASE_URL = "http://my.chsi.com.cn";
+	public static final String XUE_XIN_LOGIN_URL = "https://account.chsi.com.cn/passport/login";
+	public static final String XUE_XIN_SERVICE = "?service=http://my.chsi.com.cn/archive/j_spring_cas_security_check";
+	public static final int HTTP_OK =200;
+	public static final String HTTP_ERROR = "内部服务器出错";
+	public static final String HTTP_URL_ERROR = "请求网关错误";
+	public static final String XUE_XIN_INFO = "xue_xin_info";
+	public static final String XUE_XIN_USERNAME_OR_PASS_ERROR = "xue_xin_user_or_pass_error";
 	
 	public static final String getImgPath(HttpServlet servelt){
 		return servelt.getServletContext().getRealPath("/");

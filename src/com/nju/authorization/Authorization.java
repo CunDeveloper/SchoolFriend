@@ -1,5 +1,6 @@
 package com.nju.authorization;
 
+import com.nju.util.Constant;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -21,11 +22,7 @@ import java.util.List;
 public class Authorization {
 
 	private Logger logger = Logger.getLogger(Authorization.class);
-	private static final String TAG = Authorization.class.getSimpleName();
 	private OkHttpClient client = null;
-	private static final String BASE_URL = "http://my.chsi.com.cn";
-	private static final String LOGIN_URL = "https://account.chsi.com.cn/passport/login";
-	private static final String SERVICE = "?service=http://my.chsi.com.cn/archive/j_spring_cas_security_check";
 	private static final String USERNAME = "username";
 	private static final String PASSWORD = "password";
 	private static final String IT = "lt";
@@ -48,19 +45,48 @@ public class Authorization {
 	 */
 	public  String getIt() throws IOException {
 		Request request = new Request.Builder()
-				.url(LOGIN_URL)
+				.url(Constant.XUE_XIN_LOGIN_URL)
 				.build();
 		Response response = client.newCall(request).execute();
-		System.out.println(response.body().string());
+		System.out.println(response.code());
 		Document doc = Jsoup.parse(response.body().string());
-		Elements elements = doc.getElementsByAttributeValue("name", "lt");
-		Element element = elements.get(0);
+		Elements elements = doc.getElementsByAttributeValue("type", "hidden");
+		Element element = elements.first();
+		return element.val();
+	}
+
+	/**
+	 * 获得首页面的HTML
+	 * @param url
+	 * @return 
+	 */
+	public String getHomeHtml(String url){
+		Request request = new Request.Builder()
+				.url(url)
+				.build();
+		try {
+			Response response = client.newCall(request).execute();
+			if(response.code() == Constant.HTTP_OK) {
+				return response.body().string();
+			}
+			else{
+				return Constant.HTTP_ERROR;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			return Constant.HTTP_URL_ERROR;
+		}
+	}
+	
+	public  String getIt(Document doc) throws IOException {
+		Elements elements = doc.getElementsByAttributeValue("type", "hidden");
+		Element element = elements.first();
 		return element.val();
 	}
 	
-
-	
-	public  String getIt(String html) throws IOException {
+	public  String getItT(String html) throws IOException {
 		Document doc = Jsoup.parse(html);
 		Elements elements = doc.getElementsByAttributeValue("type", "hidden");
 		Element element = elements.first();
@@ -75,7 +101,7 @@ public class Authorization {
 	 * @return
 	 * @throws IOException
 	 */
-	public  String  postForm(String It,String username,String password) throws IOException {
+	public  String  postForm(String It,String username,String password){
 		RequestBody formBody = new FormEncodingBuilder()
 				.add(USERNAME,username)
 				.add(PASSWORD,password)
@@ -84,11 +110,23 @@ public class Authorization {
 				.add(SUBMIT,"登  录")
 				.build();
 		Request request = new Request.Builder()
-				.url(LOGIN_URL+SERVICE)
+				.url(Constant.XUE_XIN_LOGIN_URL+Constant.XUE_XIN_SERVICE)
 				.post(formBody)
 				.build();
-		Response response = client.newCall(request).execute();
-		return response.body().string();
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.code() == Constant.HTTP_OK) {
+				return response.body().string();
+			} else {
+				return Constant.HTTP_ERROR;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			return Constant.HTTP_URL_ERROR;
+		}
+		 
 	}
 
 	public  String  postFormWithCaptcha(String It,String username,String password,String captcha) throws IOException {
@@ -101,11 +139,22 @@ public class Authorization {
 				.add("captcha",captcha)
 				.build();
 		Request request = new Request.Builder()
-				.url(LOGIN_URL+SERVICE)
+				.url(Constant.XUE_XIN_LOGIN_URL+Constant.XUE_XIN_SERVICE)
 				.post(formBody)
 				.build();
-		Response response = client.newCall(request).execute();
-		return response.body().string();
+		try {
+			Response response = client.newCall(request).execute();
+			if (response.code() == Constant.HTTP_OK) {
+				return response.body().string();
+			} else {
+				return Constant.HTTP_ERROR;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			return Constant.HTTP_URL_ERROR;
+		}
 	}
 	
 	/**
@@ -128,9 +177,9 @@ public class Authorization {
 	 * @return
 	 * @throws IOException
 	 */
-	public Document getXueXinDoc(String html) throws IOException{
-		Document document =Jsoup.parse(html);
-		Elements elements = document.getElementsByTag("a");
+	public String getXueXinDoc(Document document) {
+		Element regrightDiv = document.getElementById("regrightBG");
+		Elements elements = regrightDiv.getElementsByTag("a");
 		String url ="";
 		for(Element element:elements){
 			if(element.attr("title").equals("学信档案")){
@@ -141,9 +190,20 @@ public class Authorization {
 		if (!url.equals("")){
 			Request request = new Request.Builder()
 					.url(url).build();
-			Response response =client.newCall(request).execute();
-			Document conDoc = Jsoup.parse(response.body().string());
-			return conDoc;
+			try {
+				Response response = client.newCall(request).execute();
+				if(response.code() == Constant.HTTP_OK) {
+					return response.body().string();
+				} else{
+					return Constant.HTTP_ERROR;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				logger.error(e.getMessage());
+				return Constant.HTTP_URL_ERROR;
+			}
+			
 		}else{
 			return null;
 		}
@@ -152,6 +212,19 @@ public class Authorization {
 	public Document getDocument(String html) {
 		return Jsoup.parse(html);
 	}
+	/**
+	 * 判读是否需要输入验证码
+	 * @param html
+	 * @return 需要验证码返回true，不需要返回false
+	 */
+	public boolean isNeedCaptcha(Document doc) {
+		Element captchaEle = doc.getElementById("captcha");
+		if (captchaEle != null) {
+			return true;
+		} else{
+			return false;
+		}
+	}
 	
 	public Document getTabDocElement(Document document) throws IOException{
 		Element ulElement = document.getElementById("leftList");
@@ -159,7 +232,7 @@ public class Authorization {
 		Element secondLiElement = ulElementChild.get(1);
 		Elements secondLiElementChild = secondLiElement.children();
 		Request request = new Request.Builder()
-				.url(BASE_URL + secondLiElementChild.get(0).attr("href")).build();
+				.url(Constant.XUE_XIN_BASE_URL + secondLiElementChild.get(0).attr("href")).build();
 		Response response = client.newCall(request).execute();
 		String content = response.body().string();
 		Document doc = Jsoup.parse(content);
@@ -174,7 +247,24 @@ public class Authorization {
 	 * @throws IOException
 	 */
 	public ArrayList<UserInfo> getUserInfo(Document document) throws IOException {
-		Document doc = getTabDocElement(document);
+		String html = getXueXinDoc(document);
+		if(html == null) {
+			Document doc = getTabDocElement(document);
+			return saveInfo(doc);
+		}
+		else{
+			if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_ERROR)) {
+				return null;
+			} else{
+				System.out.println(html);
+			    return saveInfo(parseHtml(html));
+			}
+		}
+	}
+	
+	 
+
+	private ArrayList<UserInfo> saveInfo(Document doc) throws IOException {
 		Element div = doc.getElementById("tabs");
 		Elements divChildren = div.children();
 		Element ul = divChildren.first();
@@ -282,10 +372,25 @@ public class Authorization {
 		return userInfoList;
 	}
 	
-	public int validate(String html){
-		Document doc = Jsoup.parse(html);
+	
+	public Document parseHtml(String html) {
+		return Jsoup.parse(html);
+	}
+	
+	/**
+	 * 判读输入的用户名或密码是否错误
+	 * <div id="status" class="errors">您输入的用户名或密码有误。</div>
+	 * @param doc
+	 * @return true,表示错误，false 表示正确
+	 */
+	
+	public boolean isErrorUsernameOrPassword(Document doc) {
 		Element element = doc.getElementById("status");
-		return element !=null ?1:0;
+		if (element !=null) {
+			return true;
+		} else{
+			return false;
+		}
 	}
 	
 	 
