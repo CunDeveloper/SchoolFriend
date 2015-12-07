@@ -27,6 +27,5 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/gson-2.5.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/imgscalr-lib-4.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/cun/workspace/SchoolFriend/WebContent/WEB-INF/lib/gson-2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
