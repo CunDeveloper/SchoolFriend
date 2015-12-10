@@ -40,7 +40,8 @@ public class XueXinService {
 		if(homeHtml.equals(Constant.HTTP_ERROR) || homeHtml.equals(Constant.HTTP_URL_ERROR)) {
 			return homeHtml;
 		} else{
-			 Document doc = authorization.parseHtml(homeHtml);
+			 Document doc = authorization.praseHtml(homeHtml);
+			 logger.error(doc.html());
 			 String it = authorization.getIt(doc);
 			 return exeLogin(it,username,password,label_id);
 		}
@@ -68,7 +69,7 @@ public class XueXinService {
 	}
 	
 	private String saveUserInfo(String html,String label_id) throws IOException {
-		Document doc = authorization.parseHtml(html);
+		Document doc = authorization.praseHtml(html);
 		SchoolFriendGson gson = SchoolFriendGson.newInstance();
 		if(authorization.isErrorUsernameOrPassword(doc)) {
 			Map<String,String> infoMap = new HashMap<String,String>();

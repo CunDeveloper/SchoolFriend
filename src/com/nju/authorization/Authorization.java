@@ -83,7 +83,12 @@ public class Authorization {
 	public  String getIt(Document doc) throws IOException {
 		Elements elements = doc.getElementsByAttributeValue("type", "hidden");
 		Element element = elements.first();
-		return element.val();
+		if (element !=null) {
+			return element.val();
+		}
+		else{
+			return "";
+		}
 	}
 	
 	public  String getItT(String html) throws IOException {
@@ -250,21 +255,35 @@ public class Authorization {
 		String html = getXueXinDoc(document);
 		if(html == null) {
 			Document doc = getTabDocElement(document);
+			//logger.error("with tag"+doc.html());
 			return saveInfo(doc);
 		}
 		else{
 			if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_ERROR)) {
 				return null;
 			} else{
-				System.out.println(html);
-			    return saveInfo(parseHtml(html));
+				//System.out.println("--------"+html);
+			    return saveInfo(getTabDocElement(praseHtml(html)));
 			}
 		}
 	}
 	
+	
+	private ArrayList<UserInfo> saveInfo3(Document doc) throws IOException {
+		//logger.error(doc.html());
+		Element div = doc.getElementById("tabs");
+		logger.error("========================="+div.text());
+		Elements divChildren = div.children();
+		Element ul = divChildren.first();
+		Elements ulChidren = ul.children();
+		ArrayList<UserInfo> userInfoList = new ArrayList<UserInfo>();
+		 
+		return userInfoList;
+	}
 	 
 
 	private ArrayList<UserInfo> saveInfo(Document doc) throws IOException {
+		//logger.error(doc.html());
 		Element div = doc.getElementById("tabs");
 		Elements divChildren = div.children();
 		Element ul = divChildren.first();
@@ -328,6 +347,7 @@ public class Authorization {
 	public ArrayList<UserInfo> getUserInfo2(Document document) throws IOException {
 		Document doc = getTabDocElement(document);
 		Element div = doc.getElementById("tabs");
+		logger.error(div.html());
 		Elements divChildren = div.children();
 		Element ul = divChildren.first();
 		Elements ulChidren = ul.children();
@@ -373,7 +393,7 @@ public class Authorization {
 	}
 	
 	
-	public Document parseHtml(String html) {
+	public Document praseHtml(String html) {
 		return Jsoup.parse(html);
 	}
 	
