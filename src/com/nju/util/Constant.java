@@ -33,6 +33,7 @@ public class Constant {
 	public static final String USER_LOCATION ="user_location";
     public static final String PUBLISH_TEXT ="publish_text";
     public static final String USER_ID = "user_id";
+    public static final String EMOTION_URL = "http://www.fileformat.info/info/unicode/char/";
 	
 	public static final String getImgPath(HttpServlet servelt){
 		return servelt.getServletContext().getRealPath("/");
