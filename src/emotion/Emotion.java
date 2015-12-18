@@ -56,6 +56,7 @@ public class Emotion {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
+		
 		Response response = client.newCall(request).execute();
 		String html = response.body().string();
 		return html;
@@ -89,7 +90,7 @@ public class Emotion {
 				}
 			}
 		}
-		 writer.write(builder.toString());
+		 writer.write(builder.toString()+"\n");
 		 writer.close();
 	}
 	
@@ -98,14 +99,16 @@ public class Emotion {
 		// TODO Auto-generated method stub
 		Emotion emotion = new Emotion();
 		List<String> codes = emotion.getCodes();
-	 
+		for(String str:codes) {
 			try {
-				String html = emotion.html(Constant.EMOTION_URL+"1F338"+"/index.htm");
+				String html = emotion.html(Constant.EMOTION_URL+str+"/index.htm");
 				emotion.parseDoc(emotion.document(html));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
 		 
 	}
 

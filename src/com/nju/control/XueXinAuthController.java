@@ -1,11 +1,16 @@
 package com.nju.control;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -94,14 +99,18 @@ public class XueXinAuthController extends HttpServlet {
 	 
 		if(resultMap.containsKey(Constant.XUE_XIN_CAPTCHA)) {
 			String IT = authorization.getItT(resultMap.get(Constant.XUE_XIN_CAPTCHA).toString());
-			 
 			request.getSession().setAttribute(Constant.XUE_XIN_IT,IT);
-			//byte[] captchaBytes = authorization.getCaptcha("https://account.chsi.com.cn/passport/captcha.image?id=1114.4807375967503");
-			//Map<String,byte[]> infoMap = new HashMap<String,byte[]>();
-			//infoMap.put(Constant.XUE_XIN_CAPTCHA,captchaBytes);
-			//out.print(result);
-			System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++"+IT);
-			request.getRequestDispatcher("auth.jsp?img=https://account.chsi.com.cn/passport/captcha.image"+Constant.XUE_XIN_SERVICE+"&id="+Math.random()*1000000000).forward(request, response);
+			byte[] buffer =authorization.getCaptcha();
+			System.out.println("buffer=="+buffer.length);
+			String fileName = Constant.getImgPath(this)+UUID.randomUUID()+".jpg";
+			System.out.println(fileName);
+			FileOutputStream outFile = new FileOutputStream(new File(fileName));
+			outFile.write(buffer);
+			outFile.close();
+			//OutputStream outPut = response.getOutputStream();
+			//outPut.write(buffer);
+			//outPut.close();
+			request.getRequestDispatcher("auth.jsp?img="+fileName).forward(request, response);
 		} else {
 			out.print(result);
 		}

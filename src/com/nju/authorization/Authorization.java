@@ -3,6 +3,7 @@ package com.nju.authorization;
 import com.nju.util.Constant;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -14,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -29,6 +31,7 @@ public class Authorization {
 	private static final String IT = "lt";
 	private static final String EVENT_ID = "_eventId";
 	private static final String SUBMIT = "submit";
+	private String session_id ="";
 
 	public Authorization()
 	{
@@ -37,23 +40,6 @@ public class Authorization {
 		CookieHandler.setDefault(cookieManager);
 		cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 		client.setCookieHandler(cookieManager);
-	}
-
-	/**
-	 * 获取隐藏字段It
-	 * @return
-	 * @throws IOException
-	 */
-	public  String getIt() throws IOException {
-		Request request = new Request.Builder()
-				.url(Constant.XUE_XIN_LOGIN_URL)
-				.build();
-		Response response = client.newCall(request).execute();
-		System.out.println(response.code());
-		Document doc = Jsoup.parse(response.body().string());
-		Elements elements = doc.getElementsByAttributeValue("type", "hidden");
-		Element element = elements.first();
-		return element.val();
 	}
 
 	/**
@@ -70,6 +56,15 @@ public class Authorization {
 			Response response = client.newCall(request).execute();
 			
 			if(response.code() == Constant.HTTP_OK) {
+				Headers headers = response.headers();
+				for(String str:headers.names()) {
+					//System.out.println(str);
+					if (str.equals("Set-Cookie")) {
+						session_id = headers.get(str);
+						break;
+					}
+				}
+				System.out.println(session_id);
 				return response.body().string();
 			}
 			else{
@@ -119,16 +114,22 @@ public class Authorization {
 				.build();
 		Request request = new Request.Builder()
 				.url(Constant.XUE_XIN_LOGIN_URL+Constant.XUE_XIN_SERVICE)
+				.header("Cookie",session_id)
 				.post(formBody)
 				.build();
-		Headers heads =request.headers();
-		logger.error("heads==size"+heads.names().size());
-		for(String name:heads.names()){
-			logger.error("NAME=="+name+"==value=="+heads.get(name));
-		}
+		Headers headerss = request.headers();
+		logger.error(headerss.get("Cookie")+"++cookie");
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.code() == Constant.HTTP_OK) {
+				Headers headers = response.headers();
+				for(String str:headers.names()) {
+					//System.out.println(str);
+					if (str.equals("Set-Cookie")) {
+						System.out.println(headers.get(str)+"======");
+						break;
+					}
+				}
 				return response.body().string();
 			} else {
 				return Constant.HTTP_ERROR;
@@ -139,6 +140,24 @@ public class Authorization {
 			logger.error(e.getMessage());
 			return Constant.HTTP_URL_ERROR;
 		}
+		 
+	}
+	
+	public  byte[]  getCaptcha(){
+		 
+		Request request = new Request.Builder()
+				.url("https://account.chsi.com.cn/passport/captcha.image"+Constant.XUE_XIN_SERVICE+"&id="+Math.random()*1000000000)
+				.header("Cookie",session_id)
+				.build();
+		 byte[] buffer = null;
+		 try {
+			Response response = client.newCall(request).execute();
+			 buffer = response.body().bytes();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 return buffer;
 		 
 	}
 
@@ -153,11 +172,20 @@ public class Authorization {
 				.build();
 		Request request = new Request.Builder()
 				.url(Constant.XUE_XIN_LOGIN_URL+Constant.XUE_XIN_SERVICE)
+				.header("Cookie",session_id)
 				.post(formBody)
 				.build();
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.code() == Constant.HTTP_OK) {
+				Headers headers = response.headers();
+				for(String str:headers.names()) {
+					//System.out.println(str);
+					if (str.equals("Set-Cookie")) {
+						System.out.println(headers.get(str)+"======");
+						break;
+					}
+				}
 				return response.body().string();
 			} else {
 				return Constant.HTTP_ERROR;

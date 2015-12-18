@@ -1,1 +1,299 @@
-cherry_blossom http://emoji.fileformat.info/gemoji/cherry_blossom.png "\uD83C\uDF38"cherry_blossom http://emoji.fileformat.info/gemoji/cherry_blossom.png "\uD83C\uDF38"
+
+grin http://emoji.fileformat.info/gemoji/grin.png "\uD83D\uDE01"
+joy http://emoji.fileformat.info/gemoji/joy.png "\uD83D\uDE02"
+
+smile http://emoji.fileformat.info/gemoji/smile.png "\uD83D\uDE04"
+sweat_smile http://emoji.fileformat.info/gemoji/sweat_smile.png "\uD83D\uDE05"
+laughing http://emoji.fileformat.info/gemoji/laughing.png "\uD83D\uDE06"
+wink http://emoji.fileformat.info/gemoji/wink.png "\uD83D\uDE09"
+blush http://emoji.fileformat.info/gemoji/blush.png "\uD83D\uDE0A"
+yum http://emoji.fileformat.info/gemoji/yum.png "\uD83D\uDE0B"
+sunglasses http://emoji.fileformat.info/gemoji/sunglasses.png "\uD83D\uDE0E"
+heart_eyes http://emoji.fileformat.info/gemoji/heart_eyes.png "\uD83D\uDE0D"
+kissing_heart http://emoji.fileformat.info/gemoji/kissing_heart.png "\uD83D\uDE18"
+kissing http://emoji.fileformat.info/gemoji/kissing.png "\uD83D\uDE17"
+kissing_smiling_eyes http://emoji.fileformat.info/gemoji/kissing_smiling_eyes.png "\uD83D\uDE19"
+kissing_closed_eyes http://emoji.fileformat.info/gemoji/kissing_closed_eyes.png "\uD83D\uDE1A"
+relaxed http://emoji.fileformat.info/gemoji/relaxed.png "\u263A"
+"\uD83D\uDE42"
+
+innocent http://emoji.fileformat.info/gemoji/innocent.png "\uD83D\uDE07"
+
+
+expressionless http://emoji.fileformat.info/gemoji/expressionless.png "\uD83D\uDE11"
+no_mouth http://emoji.fileformat.info/gemoji/no_mouth.png "\uD83D\uDE36"
+
+smirk http://emoji.fileformat.info/gemoji/smirk.png "\uD83D\uDE0F"
+persevere http://emoji.fileformat.info/gemoji/persevere.png "\uD83D\uDE23"
+disappointed_relieved http://emoji.fileformat.info/gemoji/disappointed_relieved.png "\uD83D\uDE25"
+open_mouth http://emoji.fileformat.info/gemoji/open_mouth.png "\uD83D\uDE2E"
+"\uD83E\uDD10"
+hushed http://emoji.fileformat.info/gemoji/hushed.png "\uD83D\uDE2F"
+sleepy http://emoji.fileformat.info/gemoji/sleepy.png "\uD83D\uDE2A"
+tired_face http://emoji.fileformat.info/gemoji/tired_face.png "\uD83D\uDE2B"
+sleeping http://emoji.fileformat.info/gemoji/sleeping.png "\uD83D\uDE34"
+
+
+stuck_out_tongue http://emoji.fileformat.info/gemoji/stuck_out_tongue.png "\uD83D\uDE1B"
+
+
+
+"\uD83D\uDE41"
+unamused http://emoji.fileformat.info/gemoji/unamused.png "\uD83D\uDE12"
+sweat http://emoji.fileformat.info/gemoji/sweat.png "\uD83D\uDE13"
+pensive http://emoji.fileformat.info/gemoji/pensive.png "\uD83D\uDE14"
+confused http://emoji.fileformat.info/gemoji/confused.png "\uD83D\uDE15"
+confounded http://emoji.fileformat.info/gemoji/confounded.png "\uD83D\uDE16"
+
+mask http://emoji.fileformat.info/gemoji/mask.png "\uD83D\uDE37"
+
+
+
+astonished http://emoji.fileformat.info/gemoji/astonished.png "\uD83D\uDE32"
+
+worried http://emoji.fileformat.info/gemoji/worried.png "\uD83D\uDE1F"
+
+cry http://emoji.fileformat.info/gemoji/cry.png "\uD83D\uDE22"
+sob http://emoji.fileformat.info/gemoji/sob.png "\uD83D\uDE2D"
+
+anguished http://emoji.fileformat.info/gemoji/anguished.png "\uD83D\uDE27"
+fearful http://emoji.fileformat.info/gemoji/fearful.png "\uD83D\uDE28"
+weary http://emoji.fileformat.info/gemoji/weary.png "\uD83D\uDE29"
+grimacing http://emoji.fileformat.info/gemoji/grimacing.png "\uD83D\uDE2C"
+cold_sweat http://emoji.fileformat.info/gemoji/cold_sweat.png "\uD83D\uDE30"
+scream http://emoji.fileformat.info/gemoji/scream.png "\uD83D\uDE31"
+
+dizzy_face http://emoji.fileformat.info/gemoji/dizzy_face.png "\uD83D\uDE35"
+
+angry http://emoji.fileformat.info/gemoji/angry.png "\uD83D\uDE20"
+
+imp http://emoji.fileformat.info/gemoji/imp.png "\uD83D\uDC7F"
+
+
+
+"\u2620"
+
+
+space_invader http://emoji.fileformat.info/gemoji/space_invader.png "\uD83D\uDC7E"
+"\uD83E\uDD16"
+poop http://emoji.fileformat.info/gemoji/poop.png "\uD83D\uDCA9"
+smiley_cat http://emoji.fileformat.info/gemoji/smiley_cat.png "\uD83D\uDE3A"
+
+joy_cat http://emoji.fileformat.info/gemoji/joy_cat.png "\uD83D\uDE39"
+heart_eyes_cat http://emoji.fileformat.info/gemoji/heart_eyes_cat.png "\uD83D\uDE3B"
+smirk_cat http://emoji.fileformat.info/gemoji/smirk_cat.png "\uD83D\uDE3C"
+kissing_cat http://emoji.fileformat.info/gemoji/kissing_cat.png "\uD83D\uDE3D"
+
+crying_cat_face http://emoji.fileformat.info/gemoji/crying_cat_face.png "\uD83D\uDE3F"
+
+see_no_evil http://emoji.fileformat.info/gemoji/see_no_evil.png "\uD83D\uDE48"
+hear_no_evil http://emoji.fileformat.info/gemoji/hear_no_evil.png "\uD83D\uDE49"
+speak_no_evil http://emoji.fileformat.info/gemoji/speak_no_evil.png "\uD83D\uDE4A"
+
+
+
+
+
+
+
+person_with_blond_hair http://emoji.fileformat.info/gemoji/person_with_blond_hair.png "\uD83D\uDC71"
+
+man_with_gua_pi_mao http://emoji.fileformat.info/gemoji/man_with_gua_pi_mao.png "\uD83D\uDC72"
+man_with_turban http://emoji.fileformat.info/gemoji/man_with_turban.png "\uD83D\uDC73"
+
+"\u26D1"
+
+guardsman http://emoji.fileformat.info/gemoji/guardsman.png "\uD83D\uDC82"
+"\uD83D\uDD75"
+santa http://emoji.fileformat.info/gemoji/santa.png "\uD83C\uDF85"
+
+dancers http://emoji.fileformat.info/gemoji/dancers.png "\uD83D\uDC6F"
+massage http://emoji.fileformat.info/gemoji/massage.png "\uD83D\uDC86"
+
+
+person_frowning http://emoji.fileformat.info/gemoji/person_frowning.png "\uD83D\uDE4D"
+
+no_good http://emoji.fileformat.info/gemoji/no_good.png "\uD83D\uDE45"
+ok_woman http://emoji.fileformat.info/gemoji/ok_woman.png "\uD83D\uDE46"
+information_desk_person http://emoji.fileformat.info/gemoji/information_desk_person.png "\uD83D\uDC81"
+raising_hand http://emoji.fileformat.info/gemoji/raising_hand.png "\uD83D\uDE4B"
+bow http://emoji.fileformat.info/gemoji/bow.png "\uD83D\uDE47"
+
+
+"\uD83D\uDDE3"
+bust_in_silhouette http://emoji.fileformat.info/gemoji/bust_in_silhouette.png "\uD83D\uDC64"
+busts_in_silhouette http://emoji.fileformat.info/gemoji/busts_in_silhouette.png "\uD83D\uDC65"
+
+
+
+"\uD83D\uDD74"
+
+couple_with_heart http://emoji.fileformat.info/gemoji/couple_with_heart.png "\uD83D\uDC91"
+family http://emoji.fileformat.info/gemoji/family.png "\uD83D\uDC6A"
+couple http://emoji.fileformat.info/gemoji/couple.png "\uD83D\uDC6B"
+
+
+"\uD83C\uDFFB"
+
+
+
+
+
+
+
+
+point_up_2 http://emoji.fileformat.info/gemoji/point_up_2.png "\uD83D\uDC46"
+
+
+v http://emoji.fileformat.info/gemoji/v.png "\u270C"
+
+
+
+
+
+
+ok_hand http://emoji.fileformat.info/gemoji/ok_hand.png "\uD83D\uDC4C"
+thumbsup http://emoji.fileformat.info/gemoji/thumbsup.png "\uD83D\uDC4D"
+thumbsdown http://emoji.fileformat.info/gemoji/thumbsdown.png "\uD83D\uDC4E"
+wave http://emoji.fileformat.info/gemoji/wave.png "\uD83D\uDC4B"
+
+open_hands http://emoji.fileformat.info/gemoji/open_hands.png "\uD83D\uDC50"
+
+
+
+
+footprints http://emoji.fileformat.info/gemoji/footprints.png "\uD83D\uDC63"
+
+
+
+
+
+cupid http://emoji.fileformat.info/gemoji/cupid.png "\uD83D\uDC98"
+heart http://emoji.fileformat.info/gemoji/heart.png "\u2764"
+
+broken_heart http://emoji.fileformat.info/gemoji/broken_heart.png "\uD83D\uDC94"
+two_hearts http://emoji.fileformat.info/gemoji/two_hearts.png "\uD83D\uDC95"
+sparkling_heart http://emoji.fileformat.info/gemoji/sparkling_heart.png "\uD83D\uDC96"
+heartpulse http://emoji.fileformat.info/gemoji/heartpulse.png "\uD83D\uDC97"
+
+green_heart http://emoji.fileformat.info/gemoji/green_heart.png "\uD83D\uDC9A"
+yellow_heart http://emoji.fileformat.info/gemoji/yellow_heart.png "\uD83D\uDC9B"
+purple_heart http://emoji.fileformat.info/gemoji/purple_heart.png "\uD83D\uDC9C"
+gift_heart http://emoji.fileformat.info/gemoji/gift_heart.png "\uD83D\uDC9D"
+revolving_hearts http://emoji.fileformat.info/gemoji/revolving_hearts.png "\uD83D\uDC9E"
+heart_decoration http://emoji.fileformat.info/gemoji/heart_decoration.png "\uD83D\uDC9F"
+"\u2763"
+love_letter http://emoji.fileformat.info/gemoji/love_letter.png "\uD83D\uDC8C"
+
+
+
+boom http://emoji.fileformat.info/gemoji/boom.png "\uD83D\uDCA5"
+sweat_drops http://emoji.fileformat.info/gemoji/sweat_drops.png "\uD83D\uDCA6"
+dash http://emoji.fileformat.info/gemoji/dash.png "\uD83D\uDCA8"
+dizzy http://emoji.fileformat.info/gemoji/dizzy.png "\uD83D\uDCAB"
+
+"\uD83D\uDDE8"
+"\uD83D\uDDEF"
+
+"\uD83D\uDD73"
+eyeglasses http://emoji.fileformat.info/gemoji/eyeglasses.png "\uD83D\uDC53"
+"\uD83D\uDD76"
+necktie http://emoji.fileformat.info/gemoji/necktie.png "\uD83D\uDC54"
+shirt http://emoji.fileformat.info/gemoji/shirt.png "\uD83D\uDC55"
+jeans http://emoji.fileformat.info/gemoji/jeans.png "\uD83D\uDC56"
+dress http://emoji.fileformat.info/gemoji/dress.png "\uD83D\uDC57"
+kimono http://emoji.fileformat.info/gemoji/kimono.png "\uD83D\uDC58"
+bikini http://emoji.fileformat.info/gemoji/bikini.png "\uD83D\uDC59"
+womans_clothes http://emoji.fileformat.info/gemoji/womans_clothes.png "\uD83D\uDC5A"
+purse http://emoji.fileformat.info/gemoji/purse.png "\uD83D\uDC5B"
+handbag http://emoji.fileformat.info/gemoji/handbag.png "\uD83D\uDC5C"
+pouch http://emoji.fileformat.info/gemoji/pouch.png "\uD83D\uDC5D"
+"\uD83D\uDECD"
+
+mans_shoe http://emoji.fileformat.info/gemoji/mans_shoe.png "\uD83D\uDC5E"
+high_heel http://emoji.fileformat.info/gemoji/high_heel.png "\uD83D\uDC60"
+sandal http://emoji.fileformat.info/gemoji/sandal.png "\uD83D\uDC61"
+boot http://emoji.fileformat.info/gemoji/boot.png "\uD83D\uDC62"
+
+womans_hat http://emoji.fileformat.info/gemoji/womans_hat.png "\uD83D\uDC52"
+
+mortar_board http://emoji.fileformat.info/gemoji/mortar_board.png "\uD83C\uDF93"
+
+
+
+gem http://emoji.fileformat.info/gemoji/gem.png "\uD83D\uDC8E"
+
+monkey http://emoji.fileformat.info/gemoji/monkey.png "\uD83D\uDC12"
+
+dog2 http://emoji.fileformat.info/gemoji/dog2.png "\uD83D\uDC15"
+
+
+cat http://emoji.fileformat.info/gemoji/cat.png "\uD83D\uDC31"
+cat2 http://emoji.fileformat.info/gemoji/cat2.png "\uD83D\uDC08"
+"\uD83E\uDD81"
+
+tiger2 http://emoji.fileformat.info/gemoji/tiger2.png "\uD83D\uDC05"
+leopard http://emoji.fileformat.info/gemoji/leopard.png "\uD83D\uDC06"
+
+racehorse http://emoji.fileformat.info/gemoji/racehorse.png "\uD83D\uDC0E"
+"\uD83E\uDD84"
+
+ox http://emoji.fileformat.info/gemoji/ox.png "\uD83D\uDC02"
+water_buffalo http://emoji.fileformat.info/gemoji/water_buffalo.png "\uD83D\uDC03"
+cow2 http://emoji.fileformat.info/gemoji/cow2.png "\uD83D\uDC04"
+
+pig2 http://emoji.fileformat.info/gemoji/pig2.png "\uD83D\uDC16"
+boar http://emoji.fileformat.info/gemoji/boar.png "\uD83D\uDC17"
+
+
+sheep http://emoji.fileformat.info/gemoji/sheep.png "\uD83D\uDC11"
+goat http://emoji.fileformat.info/gemoji/goat.png "\uD83D\uDC10"
+dromedary_camel http://emoji.fileformat.info/gemoji/dromedary_camel.png "\uD83D\uDC2A"
+camel http://emoji.fileformat.info/gemoji/camel.png "\uD83D\uDC2B"
+elephant http://emoji.fileformat.info/gemoji/elephant.png "\uD83D\uDC18"
+
+mouse2 http://emoji.fileformat.info/gemoji/mouse2.png "\uD83D\uDC01"
+rat http://emoji.fileformat.info/gemoji/rat.png "\uD83D\uDC00"
+
+
+rabbit2 http://emoji.fileformat.info/gemoji/rabbit2.png "\uD83D\uDC07"
+
+
+
+
+feet http://emoji.fileformat.info/gemoji/feet.png "\uD83D\uDC3E"
+"\uD83E\uDD83"
+chicken http://emoji.fileformat.info/gemoji/chicken.png "\uD83D\uDC14"
+rooster http://emoji.fileformat.info/gemoji/rooster.png "\uD83D\uDC13"
+
+
+
+
+
+
+
+crocodile http://emoji.fileformat.info/gemoji/crocodile.png "\uD83D\uDC0A"
+
+snake http://emoji.fileformat.info/gemoji/snake.png "\uD83D\uDC0D"
+
+dragon http://emoji.fileformat.info/gemoji/dragon.png "\uD83D\uDC09"
+
+whale2 http://emoji.fileformat.info/gemoji/whale2.png "\uD83D\uDC0B"
+
+
+
+
+
+
+"\uD83E\uDD80"
+snail http://emoji.fileformat.info/gemoji/snail.png "\uD83D\uDC0C"
+
+
+
+beetle http://emoji.fileformat.info/gemoji/beetle.png "\uD83D\uDC1E"
+
+
+"\uD83E\uDD82"
+
+cherry_blossom http://emoji.fileformat.info/gemoji/cherry_blossom.png "\uD83C\uDF38"
+
