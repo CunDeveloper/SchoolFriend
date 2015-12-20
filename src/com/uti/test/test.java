@@ -18,33 +18,14 @@ public class test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		 
-		Connection connection=null;
-		try {
-			 connection= C3PODataSource.getConn(); 
-			String sql = "select school_name from school";
-			PreparedStatement stat = connection.prepareStatement(sql);
-			ResultSet set =stat.executeQuery();
-			 
-			while(set.next()){
-				 
-			}
-		 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally{
-			if(connection !=null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			 
-		}
+		 byte[] buffer = {'#','1','2'};
+		 int length = buffer.length;
+		 byte[] finByte = new byte[length+1];
+		 System.arraycopy(buffer, 0, finByte, 0, length);
+		 finByte[length]='?';
+		 for(byte c:finByte){
+			 System.out.println(c);
+		 }
 	}
 
 }

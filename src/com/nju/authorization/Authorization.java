@@ -178,14 +178,6 @@ public class Authorization {
 		try {
 			Response response = client.newCall(request).execute();
 			if (response.code() == Constant.HTTP_OK) {
-				Headers headers = response.headers();
-				for(String str:headers.names()) {
-					//System.out.println(str);
-					if (str.equals("Set-Cookie")) {
-						System.out.println(headers.get(str)+"======");
-						break;
-					}
-				}
 				return response.body().string();
 			} else {
 				return Constant.HTTP_ERROR;
@@ -292,32 +284,17 @@ public class Authorization {
 		String html = getXueXinDoc(document);
 		if(html == null) {
 			Document doc = getTabDocElement(document);
-			//logger.error("with tag"+doc.html());
 			return saveInfo(doc);
 		}
 		else{
 			if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_ERROR)) {
 				return null;
 			} else{
-				//System.out.println("--------"+html);
 			    return saveInfo(getTabDocElement(praseHtml(html)));
 			}
 		}
 	}
 	
-	
-	private ArrayList<UserInfo> saveInfo3(Document doc) throws IOException {
-		//logger.error(doc.html());
-		Element div = doc.getElementById("tabs");
-		logger.error("========================="+div.text());
-		Elements divChildren = div.children();
-		Element ul = divChildren.first();
-		Elements ulChidren = ul.children();
-		ArrayList<UserInfo> userInfoList = new ArrayList<UserInfo>();
-		 
-		return userInfoList;
-	}
-	 
 
 	private ArrayList<UserInfo> saveInfo(Document doc) throws IOException {
 		//logger.error(doc.html());
@@ -326,8 +303,7 @@ public class Authorization {
 		Element ul = divChildren.first();
 		Elements ulChidren = ul.children();
 		ArrayList<UserInfo> userInfoList = new ArrayList<UserInfo>();
-		UserInfo userInfo = null;
-		System.out.println("size++"+ulChidren.size());
+		UserInfo userInfo;
 		for (Element element : ulChidren) {
 			userInfo =new UserInfo();
 			userInfo.setLabel(element.text());
@@ -337,7 +313,9 @@ public class Authorization {
 		Elements tabsDiv = doc.getElementsByClass("tabsDiv");
 		for(int j =0 ;j < tabsDiv.size();j++){
 			Element element = tabsDiv.get(j);
+			Element jsEle = element.nextElementSibling();
 			UserInfo info = userInfoList.get(j);
+			info.setMajor(paraseMajor(jsEle.html()));
 			Elements tables=element.getElementsByTag("table");
 			for(Element table:tables){
 				Elements trs = table.getElementsByTag("tr");
@@ -352,17 +330,12 @@ public class Authorization {
 						}else if(label.equals("性别")){
 							i=i+1;
 							info.setSex(ths.get(i).text());
-
 						}else if(label.equals("院校名称")){
 							i=i+1;
 							info.setYuanXiaoName(ths.get(i).text());
 						}else if(label.equals("分院")){
 							i=i+1;
 							info.setFenYuan(ths.get(i).text());
-						}else if(label.equals("专业名称")){
-							i=i+1;
-							info.setMajor(ths.get(i).text());
-
 						}else if(label.equals("入学日期")){
 							i=i+1;
 							info.setDate(ths.get(i).text());
@@ -375,58 +348,14 @@ public class Authorization {
 		return userInfoList;
 	}
 	
-	/**
-	 *
-	 * @param html
-	 * @return
-	 * @throws IOException
-	 */
-	public ArrayList<UserInfo> getUserInfo2(Document document) throws IOException {
-		Document doc = getTabDocElement(document);
-		Element div = doc.getElementById("tabs");
-		//logger.error(div.html());
-		Elements divChildren = div.children();
-		Element ul = divChildren.first();
-		Elements ulChidren = ul.children();
-		ArrayList<UserInfo> userInfoList = new ArrayList<UserInfo>();
-		UserInfo userInfo = null;
-		System.out.println("size++"+ulChidren.size());
-		for (Element element : ulChidren) {
-			userInfo =new UserInfo();
-			userInfo.setLabel(element.text());
-			userInfoList.add(userInfo);
-		}
-
-		Elements tabsDiv = doc.getElementsByClass("tabsDiv");
-		//logger.info(tabsDiv.html());
-		for(int j =0 ;j < tabsDiv.size();j++){
-			Element element = tabsDiv.get(j);
-			UserInfo info = userInfoList.get(j);
-			Elements tables=element.getElementsByTag("table");
-			for(Element table:tables){
-				Elements trs = table.getElementsByTag("tr");
-				for (Element tr : trs){
-					Elements ths = tr.children();
-					for(Element ele:ths){
-						String label = ele.text().split("：")[0];
-						if(label.equals("姓名")){
-							info.setName(ele.siblingElements().get(0).text());
-						}else if(label.equals("性别")){
-							info.setSex(ele.siblingElements().get(0).text());
-						}else if(label.equals("院校名称")){
-							info.setYuanXiaoName(ele.siblingElements().get(0).text());
-						}else if(label.equals("分院")){
-							info.setFenYuan(ele.siblingElements().get(0).text());
-						}else if(label.equals("专业名称")){
-							info.setMajor(ele.siblingElements().get(0).tagName());
-						}else if(label.equals("入学日期")){
-							info.setDate(ele.siblingElements().get(0).text());
-						}
-					}
-				}
-			}
-		}
-		return userInfoList;
+	private String paraseMajor(String jsHtml) {
+		logger.info(jsHtml);
+		String[] comStrs = jsHtml.split(";");
+		String secondStr = comStrs[2];
+		String[] dotSplitStrs = secondStr.split(",");
+		String result = dotSplitStrs[1];
+		logger.info(result.substring(2,result.length()-2));
+		return result.substring(2,result.length()-2);
 	}
 	
 	

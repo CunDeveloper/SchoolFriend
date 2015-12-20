@@ -49,7 +49,6 @@ public class XueXinService {
 	
 	public String loginWithCaptcha(String it,String username,String password,String captcha,String label_id) throws IOException {
 		String html = authorization.postFormWithCaptcha(it, username, password,captcha);
-		System.out.println(html);
 		if(html.equals(Constant.HTTP_ERROR) || html.equals(Constant.HTTP_URL_ERROR)) {
 			return html;
 		} else {	
