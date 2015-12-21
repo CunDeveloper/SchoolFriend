@@ -14,7 +14,8 @@ public class Content {
 	private List<Praise> praiseList;
 	private List<Comment> commentList;
 	private String userLocation;
-	
+	private String date;
+	private String location;
 	
 	public int getId() {
 		return id;
@@ -70,6 +71,19 @@ public class Content {
 	public void setUserLocation(String userLocation) {
 		this.userLocation = userLocation;
 	}
-	 
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	
 	
 }

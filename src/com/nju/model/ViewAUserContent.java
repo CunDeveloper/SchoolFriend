@@ -11,6 +11,22 @@ public class ViewAUserContent {
 	private int is_contain_image;
 	private Praise visitUserPraise;
 	private List<Comment> commentList;
+	private String date;
+	private String location;
+	
+	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
 	public int getId() {
 		return id;
 	}

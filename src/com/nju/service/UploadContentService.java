@@ -159,6 +159,8 @@ public class UploadContentService {
 				content.setUser_id(c_user_id);
 				content.setIs_contain_image(set.getInt(4));
 				int is_contain_img = set.getInt(4);
+				content.setDate(set.getString(5));
+				content.setLocation(set.getString(6));
 				urls = new ArrayList<String>();
 				if (is_contain_img == 1){
 					urls = queryContentPics(conn,con_id);
@@ -195,7 +197,7 @@ public class UploadContentService {
 		List<ViewAUserContent> contents = new ArrayList<ViewAUserContent>();
 		try {
 			conn = C3PODataSource.getConn();
-			String sql ="SELECT id,cont,is_contain_image FROM content WHERE user_id=?";
+			String sql ="SELECT id,cont,is_contain_image,date,user_location FROM content WHERE user_id=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1,user_id);
 			ResultSet set = stmt.executeQuery();
@@ -210,6 +212,8 @@ public class UploadContentService {
 				Praise praise = queryContentPraiseAnotherUser(conn,visit_user_id,con_id);
 			    content.setVisitUserPraise(praise);
 				int is_contain_img = set.getInt(3);
+				content.setDate(set.getString(4));
+				content.setLocation(set.getString(5));
 				content.setIs_contain_image(is_contain_img);
 				urls = new ArrayList<String>();
 				if (is_contain_img == 1){
@@ -242,14 +246,14 @@ public class UploadContentService {
 	 * @param user_id 用户自己的user_id
 	 * @return
 	 */
-	public List<Content> queryOwnContent(int own_id) {
+	public List<Content> queryOwnContent(int own_user_id) {
 		Connection conn = null; 
 		List<Content> contents = new ArrayList<Content>();
 		try {
 			conn = C3PODataSource.getConn();
 			String sql ="SELECT * FROM content where user_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,own_id);
+			stmt.setInt(1,own_user_id);
 			ResultSet set = stmt.executeQuery();
 			Content content = null;
 			List<String> urls = null;
@@ -261,6 +265,8 @@ public class UploadContentService {
 				int c_user_id = set.getInt(3);
 				content.setUser_id(c_user_id);
 				content.setIs_contain_image(set.getInt(4));
+				content.setDate(set.getString(5));
+				content.setLocation(set.getString(6));
 				int is_contain_img = set.getInt(4);
 				urls = new ArrayList<String>();
 				if (is_contain_img == 1){

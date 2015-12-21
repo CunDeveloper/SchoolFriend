@@ -74,7 +74,6 @@ public class XueXinAuthController extends HttpServlet {
 			
 		}
 		else{
-			logger.error("captcha==============="+captcha);
  			String result = service.loginWithCaptcha(request.getSession().getAttribute(Constant.XUE_XIN_IT).toString(), username, password, captcha, label_id);
 			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
 				//out.print(result);

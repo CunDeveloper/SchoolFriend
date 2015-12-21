@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 /**
  * Servlet Filter implementation class CharSetFilter
  */
-@WebFilter("/*")
+@WebFilter(urlPatterns = "/*",asyncSupported = true)
 public class CharSetFilter implements Filter {
 
 	static Logger logger = Logger.getLogger(CharSetFilter.class);
