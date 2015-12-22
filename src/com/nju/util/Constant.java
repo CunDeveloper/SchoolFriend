@@ -18,6 +18,7 @@ public class Constant {
 	public static final String QUERY_OWN = "query_own";
 	public static final String QUERY_ANOTHER = "query_another";
 	public static final String XUE_AUTH ="auth";
+	public static final String LABLE = "lable";
 	public static final String XUE_XIN_CAPTCHA ="captcha";
 	public static final String XUE_XIN_IT = "xue_xin_it";
 	public static final String XUE_XIN_BASE_URL = "http://my.chsi.com.cn";
@@ -35,7 +36,20 @@ public class Constant {
     public static final String USER_ID = "user_id";
     public static final String EMOTION_URL = "http://www.fileformat.info/info/unicode/char/";
     public static final String AUTH_OBJECT = "auth_object";
-	
+    public static final String FILE_UPLOAD_CONTROLLER = "/FileUploadController";
+    public static final String FILE_UPLOAD_USER_CONTROLLER = "/FileUploadUserController";
+    public static final String FILE_UPLOAD_USER_UPDATE_CONTROLLER = "/FileUploadUserUpdateController";
+    public static final String PRAISE_CONTROLLER ="/PraiseController";
+    public static final String PUBLISH_TEXT_CONTROLLER = "/PublishTextController";
+    public static final String USER_COMMENT_CONTROLLER = "/UserCommentController";
+    public static final String USER_CONTENT_CONTROLLER ="/UserContentContrller";
+    public static final String USER_CONTROLLER ="/UserController";
+    public static final String USER_INFO_CONTROLLER = "/UserInfoController";
+    public static final String USER_PUBLISH_CONTENT_CONTROLLER = "/UserPublishContentController";
+    public static final String XUE_XIN_AUTH_CONTROLLER = "/XueXinAuthController";
+    public static final String INTEGER = "integer";
+	public static final String STRING = "string";
+    
 	public static final String getImgPath(HttpServlet servelt){
 		return servelt.getServletContext().getRealPath("/");
 	}

@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,58 +26,39 @@ import com.nju.util.Validate;
  * Servlet implementation class FileUploadUserUpdateController
  */
 @WebServlet("/FileUploadUserUpdateController")
-public class FileUploadUserUpdateController extends HttpServlet {
+public class FileUploadUserUpdateController extends BaseServlet {
+	 
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FileUploadUserUpdateController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 PrintWriter out = response.getWriter();
 		 String id = request.getParameter("user_id");
-		 if(id !=null && Validate.isNumber(id) ){
-			 int userId = Integer.valueOf(id);
-			 try {
-					User user = new User();
-					user.setId(userId);
-					FileUploadService fileUpload = new FileUploadService(request,response);  
-					List<FileItem> items = fileUpload.getFileItem();
-					boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-					if(isMultipart) {
-						String path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("user");
-						Iterator<FileItem> iter = items.iterator();
-						while (iter.hasNext()) {
-						    FileItem item = iter.next();
-						    if (item.isFormField()) {
-						    	processFormField(item,user);
-						    } else {
-								processUploadedFile(item, path,user);
-						    }
-						}
+		 int userId = Integer.valueOf(id);
+		 try {
+				User user = new User();
+				user.setId(userId);
+				FileUploadService fileUpload = new FileUploadService(request,response);  
+				List<FileItem> items = fileUpload.getFileItem();
+				boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+				if(isMultipart) {
+					String path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("user");
+					Iterator<FileItem> iter = items.iterator();
+					while (iter.hasNext()) {
+					    FileItem item = iter.next();
+					    if (item.isFormField()) {
+					    	processFormField(item,user);
+					    } else {
+							processUploadedFile(item, path,user);
+					    }
 					}
-					 new UserService().updateUser(user);
-				 } catch (FileUploadException e) {
-					// TODO Auto-generated catch block
-					out.print("用户注册信息失败");
-					e.printStackTrace();
 				}
-		 }
+				 new UserService().updateUser(user);
+			 } catch (FileUploadException e) {
+				// TODO Auto-generated catch block
+				out.print("用户注册信息失败");
+				e.printStackTrace();
+			}
 	 out.flush();
 	 out.close();
 	}
@@ -137,7 +117,6 @@ public class FileUploadUserUpdateController extends HttpServlet {
 		    		user.setPassword(value);
 		    	}
 		    }
-		    System.out.println(name+"==="+value);
 		   
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

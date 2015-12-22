@@ -12,7 +12,6 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,8 +19,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
-
 import com.nju.model.Content;
 import com.nju.service.UploadContentService;
 import com.nju.util.Constant;
@@ -31,28 +28,10 @@ import com.nju.util.SchoolFriendGson;
  * Servlet implementation class UserPublishContentController
  */
 @WebServlet("/UserPublishContentController")
-public class UserPublishContentController extends HttpServlet {
+public class UserPublishContentController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(UserPublishContentController.class); 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UserPublishContentController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		 PrintWriter out = response.getWriter();
 		 DiskFileItemFactory factory = new DiskFileItemFactory();

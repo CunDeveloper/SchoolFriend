@@ -35,33 +35,11 @@ import com.nju.service.impl.FileUpload;
 import com.nju.util.Constant;
 import com.nju.util.SchoolFriendGson;
 @WebServlet("/FileUploadUserController")
-public class FileUploadUserController extends HttpServlet {
+public class FileUploadUserController extends BaseServlet {
 
-	private static Logger logger = Logger.getLogger(FileUploadUserController.class);
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Constructor of the object.
-	 */ 
-	public FileUploadUserController() {
-		super();
-	}
-
-	/**
-	 * 
-	 * The doPost method of the servlet. <br>
-	 *
-	 * This method is called when a form has its tag value method equals to post.
-	 * 
-	 * @param request the request send by the client to the server
-	 * @param response the response send by the server to the client
-	 * @throws ServletException if an error occurred
-	 * @throws IOException if an error occurred
-	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse response)
+ 
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		 String school = request.getParameter(Constant.SCHOOL);
 		 String label_id = request.getParameter(Constant.LABEL_ID);

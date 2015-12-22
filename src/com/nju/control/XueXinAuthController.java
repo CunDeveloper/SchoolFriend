@@ -1,28 +1,14 @@
 package com.nju.control;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.jsoup.nodes.Document;
-
 import com.nju.authorization.Authorization;
-import com.nju.authorization.UserInfo;
 import com.nju.service.XueXinService;
 import com.nju.util.Constant;
 import com.nju.util.SchoolFriendGson;
@@ -31,22 +17,10 @@ import com.nju.util.SchoolFriendGson;
  * Servlet implementation class XueXinAuthController
  */
 @WebServlet("/XueXinAuthController")
-public class XueXinAuthController extends HttpServlet {
+public class XueXinAuthController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	 
-    private static Logger logger = Logger.getLogger(XueXinAuthController.class);
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public XueXinAuthController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-    
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Authorization authorization = null;
 		//PrintWriter out = response.getWriter();

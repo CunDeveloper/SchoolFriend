@@ -7,10 +7,8 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.nju.model.Content;
 import com.nju.model.ViewAUserContent;
 import com.nju.service.UploadContentService;
@@ -22,56 +20,32 @@ import com.nju.util.Validate;
  * Servlet implementation class UserContentContrller
  */
 @WebServlet("/UserContentContrller")
-public class UserContentContrller extends HttpServlet {
+public class UserContentContrller extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UserContentContrller() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doPost(request,response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		String label = request.getParameter("lable");
 		String str_user_id = request.getParameter("user_id");
 		SchoolFriendGson gson = SchoolFriendGson.newInstance();
-		if(label!=null && Validate.isNumber(str_user_id)) {
-			int user_id = Integer.valueOf(str_user_id);
-			if(label.equals("delete"))
-				delete(request,response);
-			else if(label.equals(Constant.QUERY_ALL)){
-				List<Content> contents = new UploadContentService().query(user_id);
-				out.println(gson.toJson(contents));
-			} else if(label.equals(Constant.QUERY_OWN)) {
-				List<Content> contents = new UploadContentService().queryOwnContent(user_id);
+		int user_id = Integer.valueOf(str_user_id);
+		if(label.equals("delete"))
+			delete(request,response);
+		else if(label.equals(Constant.QUERY_ALL)){
+			List<Content> contents = new UploadContentService().query(user_id);
+			out.println(gson.toJson(contents));
+		} else if(label.equals(Constant.QUERY_OWN)) {
+			List<Content> contents = new UploadContentService().queryOwnContent(user_id);
+			out.print(gson.toJson(contents));
+		} else if (label.equals(Constant.QUERY_ANOTHER)){
+			String str_visit_user_id = request.getParameter("visit_id");
+			if(Validate.isNumber(str_visit_user_id)){
+				int visit_user_id  = Integer.valueOf(str_visit_user_id);
+				List<ViewAUserContent> contents = new UploadContentService().queryAnotherUserContent(visit_user_id, user_id);
 				out.print(gson.toJson(contents));
-			} else if (label.equals(Constant.QUERY_ANOTHER)){
-				String str_visit_user_id = request.getParameter("visit_id");
-				if(Validate.isNumber(str_visit_user_id)){
-					int visit_user_id  = Integer.valueOf(str_visit_user_id);
-					List<ViewAUserContent> contents = new UploadContentService().queryAnotherUserContent(visit_user_id, user_id);
-					out.print(gson.toJson(contents));
-				}
 			}
-		} else{
-			out.print(Constant.PARAMER_ERROR);
 		}
-		
 	}
 	
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException{

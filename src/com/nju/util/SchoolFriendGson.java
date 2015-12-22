@@ -1,5 +1,6 @@
 package com.nju.util;
 
+import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -35,14 +36,18 @@ public class SchoolFriendGson{
 		return gson.toJson(t);
 	}
 	
-	public <T> List<T> fromJsonToList(String json) {
+	public <T> List<T> fromJsonToList(final String json) {
 		Type datasetListType = new TypeToken<Collection<T>>() {}.getType();
 		return gson.fromJson(json, datasetListType);
 	}
 	
-	public <K,V> Map<K,V> fromJsonToMap(String json) {
+	public <K,V> Map<K,V> fromJsonToMap(final String json) {
 		Type datasetMapType = new TypeToken<Map<K,V>>() {}.getType();
 		return gson.fromJson(json, datasetMapType);
+	}
+	
+	public <T> T fromJsonToObject(final Reader reader,Class<T> clazz) {
+		return gson.fromJson(reader,clazz);
 	}
 	 
 }
