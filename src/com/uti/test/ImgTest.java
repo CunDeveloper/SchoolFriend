@@ -14,6 +14,7 @@ public class ImgTest {
 		try {
 		    File img = new File("D://test.jpg");
 		    BufferedImage image = ImageIO.read(img ); 
+		  
 		    BufferedImage testImage =createThumbnail(image);
 		    ImageIO.write(testImage,"png",new File("D://TEST.png"));
 		} catch (IOException e) { 
@@ -23,6 +24,7 @@ public class ImgTest {
 	
 	public static BufferedImage createThumbnail(BufferedImage img){
 		BufferedImage aimg = Scalr.resize(img,50);
+		
 		return aimg;
 	}
 }

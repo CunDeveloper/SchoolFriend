@@ -87,6 +87,7 @@ public class UserPublishContentController extends BaseServlet {
             File file = new File(dir,fileName.toString());
             try {
 				file.createNewFile();
+				
 	            item.write(file);
 	            imageList.add(fileName.toString());
 			} catch (IOException e) {
