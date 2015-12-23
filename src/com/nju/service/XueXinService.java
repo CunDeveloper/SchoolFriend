@@ -5,14 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import com.nju.authorization.Authorization;
 import com.nju.authorization.UserInfo;
-import com.nju.dao.UserInfoDao;
+import com.nju.dao.impl.BaseDaoImpl;
 import com.nju.dao.impl.UserInfoDaoImpl;
 import com.nju.util.Constant;
 import com.nju.util.SchoolFriendGson;
@@ -23,7 +19,6 @@ public class XueXinService {
 	public XueXinService(Authorization mauthoriztion) {
 		this.authorization = mauthoriztion;
 	}
-	private static Logger logger = Logger.getLogger(XueXinService.class);
 	/**
 	 * 
 	 * @param username
@@ -79,7 +74,7 @@ public class XueXinService {
 			info.put(Constant.XUE_XIN_CAPTCHA,html);
 			return gson.toJson(info);
 		} else{
-				UserInfoDao userInfo = new UserInfoDaoImpl();
+				BaseDaoImpl<UserInfo> userInfo = new UserInfoDaoImpl();
 				ArrayList<UserInfo> lists = authorization.getUserInfo(doc);
 				if(lists==null) {
 					Map<String,String> infoMap = new HashMap<String,String>();

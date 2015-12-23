@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class C3PODataSource {
-	private final static String TAG =C3PODataSource.class.getSimpleName();
 	private static ComboPooledDataSource cpds = null;
 	private C3PODataSource(){
 		 cpds= new ComboPooledDataSource();
-		 System.out.println("hello world");
 		try {
 			cpds.setDriverClass( "com.mysql.jdbc.Driver" );
 		} catch (PropertyVetoException e) {

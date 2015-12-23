@@ -22,13 +22,8 @@ public class FileUploadContent implements FileUpload {
 	@Override
 	public void processUploadedFile(FileItem item,String path) {
 		// TODO Auto-generated method stub
-		if (item.getName() != null && !item.getName().equals("")) {// 判断是否选择了文件
-            System.out.println("上传文件的大小:" + item.getSize());
-            System.out.println("上传文件的类型:" + item.getContentType());
-            // item.getName()返回上传文件在客户端的完整路径名称
-            System.out.println("上传文件的名称:" + item.getName());
-            // 此时文件暂存在服务器的内存当中
-            File tempFile = new File(item.getName());// 构造临时对象
+		if (item.getName() != null && !item.getName().equals("")) { 
+            File tempFile = new File(item.getName());
             File dir = new File(path);
             if ( !dir.exists()) {
             	dir.mkdir();
@@ -36,8 +31,7 @@ public class FileUploadContent implements FileUpload {
             File file = new File(dir,tempFile.getName());
             try {
 				file.createNewFile();
-				 // 获取根目录对应的真实物理路径
-	            item.write(file);// 保存文件在服务器的物理磁盘中
+	            item.write(file); 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -22,13 +22,13 @@ import com.nju.service.impl.FileUpload;
 public class FileUploadController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
  
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		 PrintWriter out = response.getWriter();
 		 String label = request.getParameter("type");
 		 
 		 if(label== null || label.equals("")) {
-			 out.print("文件上传错误");
+			 out.append("文件上传错误");
 		 }else{
 			 DiskFileItemFactory factory = new DiskFileItemFactory();
 			 ServletContext servletContext = this.getServletContext();

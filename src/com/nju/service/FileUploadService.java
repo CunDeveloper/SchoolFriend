@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -14,10 +12,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class FileUploadService {
 	private HttpServletRequest request;
-	private HttpServletResponse response;
-	public FileUploadService(HttpServletRequest request,HttpServletResponse response) {
+	public FileUploadService(HttpServletRequest request) {
 		this.request = request;
-		this.response = response;
 	}
 	public List<FileItem> getFileItem() throws FileUploadException {
 		 DiskFileItemFactory factory = new DiskFileItemFactory();

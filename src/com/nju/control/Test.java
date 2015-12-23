@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Test extends BaseServlet {
 	 
 	private static final long serialVersionUID = 1L;
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+		
 		final AsyncContext aCtx =request.startAsync(request, response);
 		Executor executor = Executors.newCachedThreadPool();
 		executor.execute(new Runnable(){
@@ -29,9 +30,7 @@ public class Test extends BaseServlet {
 				HttpServletResponse response = (HttpServletResponse) aCtx.getResponse();
 				try {
 					PrintWriter out = response.getWriter();
-					out.println("hello");
-					logger.info("hello");
-					out.flush();
+					out.append("hello");
 					out.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

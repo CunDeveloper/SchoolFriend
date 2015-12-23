@@ -37,13 +37,13 @@ public class UserContentContrller extends BaseServlet {
 			out.println(gson.toJson(contents));
 		} else if(label.equals(Constant.QUERY_OWN)) {
 			List<Content> contents = new UploadContentService().queryOwnContent(user_id);
-			out.print(gson.toJson(contents));
+			out.append(gson.toJson(contents));
 		} else if (label.equals(Constant.QUERY_ANOTHER)){
 			String str_visit_user_id = request.getParameter("visit_id");
 			if(Validate.isNumber(str_visit_user_id)){
 				int visit_user_id  = Integer.valueOf(str_visit_user_id);
 				List<ViewAUserContent> contents = new UploadContentService().queryAnotherUserContent(visit_user_id, user_id);
-				out.print(gson.toJson(contents));
+				out.append(gson.toJson(contents));
 			}
 		}
 	}

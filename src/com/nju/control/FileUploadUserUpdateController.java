@@ -38,7 +38,7 @@ public class FileUploadUserUpdateController extends BaseServlet {
 		 try {
 				User user = new User();
 				user.setId(userId);
-				FileUploadService fileUpload = new FileUploadService(request,response);  
+				FileUploadService fileUpload = new FileUploadService(request);  
 				List<FileItem> items = fileUpload.getFileItem();
 				boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 				if(isMultipart) {
@@ -56,7 +56,7 @@ public class FileUploadUserUpdateController extends BaseServlet {
 				 new UserService().updateUser(user);
 			 } catch (FileUploadException e) {
 				// TODO Auto-generated catch block
-				out.print("用户注册信息失败");
+				out.append("用户注册信息失败");
 				e.printStackTrace();
 			}
 	 out.flush();

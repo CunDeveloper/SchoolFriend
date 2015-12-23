@@ -32,7 +32,7 @@ public class UserCommentController extends BaseServlet {
 		comment.setComment_content(content);comment.setCon_id(con_id);
 		comment.setUser_id(user_id);
 		comment.setRe_user_id(re_user_id);
-		out.print(SchoolFriendGson.newInstance().toJson(new CommentService().save(comment)));
+		out.append(SchoolFriendGson.newInstance().toJson(new CommentService().save(comment)));
 		out.flush();
 		out.close();
 	}

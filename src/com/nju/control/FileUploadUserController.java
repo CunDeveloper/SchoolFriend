@@ -25,7 +25,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 
+import com.nju.authorization.UserInfo;
 import com.nju.dao.UserInfoDao;
+import com.nju.dao.impl.BaseDaoImpl;
 import com.nju.dao.impl.UserInfoDaoImpl;
 import com.nju.model.User;
 import com.nju.service.FileUploadContent;
@@ -47,7 +49,7 @@ public class FileUploadUserController extends BaseServlet {
 		 SchoolFriendGson gson = SchoolFriendGson.newInstance();
 		 try {
 			User user = new User();
-			FileUploadService fileUpload = new FileUploadService(request,response);  
+			FileUploadService fileUpload = new FileUploadService(request);  
 			List<FileItem> items = fileUpload.getFileItem();
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if(isMultipart) {
@@ -66,9 +68,9 @@ public class FileUploadUserController extends BaseServlet {
 				    }
 				}
 			}
-			UserInfoDao infoDao = new UserInfoDaoImpl();
-			String realName = infoDao.queryRealName(label_id);
-			user.setRealName(realName);
+			BaseDaoImpl<UserInfo> infoDao = new UserInfoDaoImpl();
+			UserInfo userInfo = infoDao.query(label_id);
+			user.setRealName(userInfo.getName());
 			out.println(gson.toJson(new UserService().save(user)));
 		 } catch (FileUploadException e) {
 			// TODO Auto-generated catch block

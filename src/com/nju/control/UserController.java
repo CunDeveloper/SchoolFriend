@@ -18,7 +18,7 @@ import com.nju.service.UserService;
 public class UserController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException   {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		String userName = request.getParameter("username");
@@ -27,9 +27,9 @@ public class UserController extends BaseServlet {
 		 User user = new UserService().query(userName, password);
 		 if (user!=null) {
 			 request.getSession().setAttribute("USER_ID",user.getId());
-			 out.print("登录成功");
+			 out.append("登录成功");
 		 }else{
-			 out.print("登录失败");
+			 out.append("登录失败");
 		 }
 	}
 

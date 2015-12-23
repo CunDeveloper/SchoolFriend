@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.nju.dao.impl.CommentDaoImpl;
 import com.nju.util.C3PODataSource;
 import com.nju.util.Validate;
  
@@ -35,6 +36,8 @@ public class test {
 		 System.out.println(Validate.isInteger(str1));
 		 System.out.println(Validate.isInteger(str2));
 		 System.out.println(Validate.isInteger(str3));
+		 CommentDaoImpl dao = new CommentDaoImpl();
+		 
 	}
 
 }

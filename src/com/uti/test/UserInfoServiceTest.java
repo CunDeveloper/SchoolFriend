@@ -22,7 +22,7 @@ public class UserInfoServiceTest {
 	
 	@Test
 	public void testUpdate() {
-		 new UserInfoService().update(12, "Slf4jMLog$Slf4jMLogge");
+		 //new UserInfoService().update(12, "Slf4jMLog$Slf4jMLogge");
 	}
 
 }
