@@ -1,7 +1,10 @@
 package com.nju.control;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,13 +16,13 @@ import org.apache.log4j.Logger;
 public abstract class BaseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public Logger logger;
-       
     /**
      * @see HttpServlet#HttpServlet()
      */
     public BaseServlet() {
         super();
         logger =Logger.getLogger(this.getClass());
+       
     }
 
 	@Override
