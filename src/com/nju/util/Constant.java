@@ -47,6 +47,9 @@ public class Constant {
     public static final String USER_INFO_CONTROLLER = "/UserInfoController";
     public static final String USER_PUBLISH_CONTENT_CONTROLLER = "/UserPublishContentController";
     public static final String XUE_XIN_AUTH_CONTROLLER = "/XueXinAuthController";
+    public static final String QUERY_USER_BY_ID = "query_user_by_id";
+    public static final String QUERY_USER_BY_NAME_PASS = "query_user_by_name_pass";
+    public static final String QUERY_USER_BY_NAME = "query_user_by_name";
     public static final String INTEGER = "integer";
 	public static final String STRING = "string";
     

@@ -9,7 +9,6 @@ public class Content {
 	private int user_id;
 	private String content;
 	private List<String> imageList = new ArrayList<String>();
-	private int is_contain_image;
 	private String praiceUserName;/*要废掉*/
 	private List<Praise> praiseList;
 	private List<Comment> commentList;
@@ -38,14 +37,9 @@ public class Content {
 	public List<String> getImageList() {
 		return imageList;
 	}
+	
 	public void setImageList(List<String> imageList) {
 		this.imageList = imageList;
-	}
-	public int getIs_contain_image() {
-		return is_contain_image;
-	}
-	public void setIs_contain_image(int is_contain_image) {
-		this.is_contain_image = is_contain_image;
 	}
 	public String getPraiceUserName() {
 		return praiceUserName;
@@ -84,6 +78,21 @@ public class Content {
 		this.location = location;
 	}
 	
+	public String listToString() {
+		StringBuilder builder = new StringBuilder();
+		for(String str:imageList){
+			builder.append(str);
+		}
+		return builder.toString();
+	}
 	
+	public void stringToList(String picURLs){
+		if(picURLs != null && !picURLs.trim().equals("")) {
+			String[] urls = picURLs.split(",");
+			for(String url:urls){
+				imageList.add(url);
+			}
+		}
+	}
 	
 }

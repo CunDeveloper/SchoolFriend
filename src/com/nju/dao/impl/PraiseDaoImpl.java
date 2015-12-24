@@ -29,13 +29,17 @@ public class PraiseDaoImpl extends BaseDaoImpl<Praise> {
 		return null;
 	}
 
-	@Override
-	protected  void privateDelete(Connection conn, PreparedStatement stmt, String... params) throws SQLException {
 	 
-	}
 
 	@Override
 	protected void privateUpdate(Connection conn, PreparedStatement stmt, Praise t, String... params)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void privateDelete(Connection conn, PreparedStatement stmt, Praise t, String... params)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		

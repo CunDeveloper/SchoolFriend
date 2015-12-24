@@ -83,7 +83,7 @@ public class UserContentContrller extends BaseServlet {
 		int con_id = Integer.valueOf(strConId);
 		int is_contain_image = Integer.valueOf(strContainImage);
 		String path = Constant.getImgPath(this) +school;
-		new UploadContentService().delete(con_id, is_contain_image,imgNames,path);
+		//new UploadContentService().delete(con_id, is_contain_image,imgNames,path);
 	}
 
 }

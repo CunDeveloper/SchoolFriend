@@ -1,6 +1,5 @@
 package com.nju.service;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,14 +8,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.nju.dao.impl.BaseDaoImpl;
+import com.nju.dao.impl.UploadContentDaoImpl;
 import com.nju.model.Comment;
 import com.nju.model.Content;
 import com.nju.model.Praise;
 import com.nju.model.ViewAUserContent;
 import com.nju.util.C3PODataSource;
-import com.nju.util.Constant;
 
 public class UploadContentService {
+	
+	private BaseDaoImpl<Content> baseDao ;
+	
+	public UploadContentService() {
+		baseDao = new UploadContentDaoImpl();
+	}
 	/**
 	 * 
 	 * @param user
@@ -24,111 +31,11 @@ public class UploadContentService {
 	 * 
 	 */
 	public int save(Content content) {
-		 
-		Connection conn = null;
-		int result = Constant.SQL_EXE_FALIURE;
-		String sql ="insert into content(cont,user_id,is_contain_image,date,user_location) values(?,?,?,now(),?)";
-		PreparedStatement stmt = null;
-		try {
-			conn = C3PODataSource.getConn();
-			stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			stmt.setString(1,content.getContent());
-			stmt.setInt(2,content.getUser_id());
-			stmt.setInt(3,content.getImageList().size());
-			stmt.setString(4,content.getUserLocation());
-		    stmt.executeUpdate();
-		    ResultSet set = stmt.getGeneratedKeys();
-		    if(set.next()) {
-		    	PreparedStatement imageStmt = null;
-		    	int con_id = set.getInt(1);
-		    	try{
-			    	String imgSql = "insert into images(url,con_id) values(?,?)";
-			    	imageStmt = conn.prepareStatement(imgSql);;
-			    	conn.setAutoCommit(false);
-			    	for(String str:content.getImageList()) {
-			    		 imageStmt.setString(1,str);
-			    		 imageStmt.setInt(2, con_id);
-			    		 imageStmt.addBatch();
-			    	}
-			    	imageStmt.executeBatch();
-		    	}
-		    	catch(SQLException e){
-		    		String deleteSql ="DELETE FROM content WHERE id ="+con_id;
-		    		PreparedStatement deleStmt = conn.prepareStatement(deleteSql);
-		    		deleStmt.executeUpdate();
-		    	}
-		    	finally{
-		    		conn.setAutoCommit(true);
-		    		try {
-		    			if(imageStmt!=null){
-		    				imageStmt.close();
-		    			}if(conn != null){
-		    				conn.close();
-		    			}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		    	}
-		    }
-		    result = Constant.SQL_EXE_OK;   
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		finally{
-			try {
-				if(stmt!=null){
-					stmt.close();
-				}
-				if(conn != null){
-					conn.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return result;
+		 return baseDao.save(content);
 	}
 	
-	public void delete(int con_id,int is_contain_img,List<String> imgNames,String path){
-		Connection conn = null; 
-		try {
-			conn = C3PODataSource.getConn();
-			conn.setAutoCommit(false);
-			String sql ="DELETE FROM content where id =?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,con_id);
-			stmt.addBatch();
-			if(is_contain_img == 1) {
-				stmt.addBatch("DELETE FROM images WHERE con_id ="+con_id);
-			}
-			stmt.addBatch("DELETE FROM images WHERE con_id ="+con_id);
-			stmt.addBatch("DELETE FROM comment WHERE con_id ="+con_id);
-			stmt.addBatch("DELETE FROM praise WHERE con_id ="+con_id);
-			stmt.executeBatch();
-			conn.commit();
-			conn.setAutoCommit(true);
-			File file = null;
-			for (String str:imgNames) {
-				file = new File(path,str);
-				file.delete();
-			}
-			 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		finally{
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-		}
-		 
+	public int delete(Content content,String path){
+		 return baseDao.delete(content, path);
 	}
 
 	/**
@@ -157,7 +64,7 @@ public class UploadContentService {
 				content.setContent(set.getString(2));
 				int c_user_id = set.getInt(3);
 				content.setUser_id(c_user_id);
-				content.setIs_contain_image(set.getInt(4));
+				//content.setIs_contain_image(set.getInt(4));
 				int is_contain_img = set.getInt(4);
 				content.setDate(set.getString(5));
 				content.setLocation(set.getString(6));
@@ -264,7 +171,7 @@ public class UploadContentService {
 				content.setContent(set.getString(2));
 				int c_user_id = set.getInt(3);
 				content.setUser_id(c_user_id);
-				content.setIs_contain_image(set.getInt(4));
+				//content.setIs_contain_image(set.getInt(4));
 				content.setDate(set.getString(5));
 				content.setLocation(set.getString(6));
 				int is_contain_img = set.getInt(4);

@@ -28,13 +28,16 @@ public class CommentDaoImpl extends BaseDaoImpl<Comment> {
 		return null;
 	}
 
+	 
 	@Override
-	protected void privateDelete(Connection conn, PreparedStatement stmt, String... params) throws SQLException {
-		 
+	protected void privateUpdate(Connection conn, PreparedStatement stmt, Comment t, String... params)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	protected void privateUpdate(Connection conn, PreparedStatement stmt, Comment t, String... params)
+	protected void privateDelete(Connection conn, PreparedStatement stmt, Comment t, String... params)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		

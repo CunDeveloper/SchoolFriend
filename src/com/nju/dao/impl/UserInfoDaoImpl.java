@@ -42,13 +42,17 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo> {
 		return userInfo;
 	}
 
-	@Override
-	protected void privateDelete(Connection conn, PreparedStatement stmt, String... params) throws SQLException {
-		 
-	}
+	 
 
 	@Override
 	protected void privateUpdate(Connection conn, PreparedStatement stmt, UserInfo t, String... params)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void privateDelete(Connection conn, PreparedStatement stmt, UserInfo t, String... params)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		

@@ -12,7 +12,7 @@ public abstract class BaseDaoImpl<T> {
 
 	protected abstract void privateSave(Connection conn,PreparedStatement stmt,T t,String...params) throws SQLException;
 	protected abstract T privateQuery(Connection conn,PreparedStatement stmt,ResultSet set,String...params) throws SQLException;
-	protected abstract void privateDelete(Connection conn,PreparedStatement stmt,String...params) throws SQLException;
+	protected abstract void privateDelete(Connection conn,PreparedStatement stmt,T t,String...params) throws SQLException;
 	protected abstract void privateUpdate(Connection conn,PreparedStatement stmt,T t,String...params) throws SQLException;
 	
 	public int save(T t,String...params) {
@@ -21,7 +21,7 @@ public abstract class BaseDaoImpl<T> {
 		int result = Constant.SQL_EXE_FALIURE;
 		try {
 			conn = C3PODataSource.getConn();
-			privateSave(conn,stmt,t);
+			privateSave(conn,stmt,t,params);
 			result = Constant.SQL_EXE_OK;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -41,13 +41,14 @@ public abstract class BaseDaoImpl<T> {
 		return result;
 	 }
 	
-	public int delete(String...params) {
+	 
+	public int delete(T t,String...params) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		int result = Constant.SQL_EXE_FALIURE;
 		try {
 			conn = C3PODataSource.getConn();
-			privateDelete(conn,stmt,params);
+			privateDelete(conn,stmt,t,params);
 			result = Constant.SQL_EXE_OK;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
