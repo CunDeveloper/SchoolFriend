@@ -1,6 +1,7 @@
 package com.nju.util;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 
 public class Constant {
 	public static final String OK = "ok";
@@ -50,11 +51,16 @@ public class Constant {
     public static final String QUERY_USER_BY_ID = "query_user_by_id";
     public static final String QUERY_USER_BY_NAME_PASS = "query_user_by_name_pass";
     public static final String QUERY_USER_BY_NAME = "query_user_by_name";
+    public static final String DELETE = "delete";
     public static final String INTEGER = "integer";
 	public static final String STRING = "string";
     
 	public static final String getImgPath(HttpServlet servelt){
 		return servelt.getServletContext().getRealPath("/");
+	}
+	
+	public static final String getImgPath(HttpServletRequest request){
+		return request.getServletContext().getRealPath("/");
 	}
 
 }

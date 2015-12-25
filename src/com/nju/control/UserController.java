@@ -1,36 +1,23 @@
 package com.nju.control;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
+import javax.servlet.AsyncContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.nju.model.User;
-import com.nju.service.UserService;
+import com.nju.runnable.UserRunnable;
 
 /**
  * Servlet implementation class UserController
  */
-@WebServlet("/UserController")
+@WebServlet(urlPatterns={"/UserController"},asyncSupported=true)
 public class UserController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException   {
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
-		String userName = request.getParameter("username");
-		String password = request.getParameter("password");
-		String diviceID = request.getParameter("divice_id");
-		 User user = new UserService().query(userName, password);
-		 if (user!=null) {
-			 request.getSession().setAttribute("USER_ID",user.getId());
-			 out.append("登录成功");
-		 }else{
-			 out.append("登录失败");
-		 }
+		AsyncContext context = request.startAsync(request, response);
+		addToQueue(new UserRunnable(context));
 	}
 
 }

@@ -1,40 +1,24 @@
 package com.nju.control;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.nju.model.Comment;
-import com.nju.service.CommentService;
-import com.nju.util.SchoolFriendGson;
+import com.nju.runnable.UserCommentRunnable;
 
 /**
  * Servlet implementation class UserCommentController
  */
-@WebServlet("/UserCommentController")
+@WebServlet(urlPatterns={"/UserCommentController"},asyncSupported=true)
 public class UserCommentController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		String content = request.getParameter("content");
-		String str_con_id = request.getParameter("con_id");
-		String str_user_id = request.getParameter("user_id");
-		String str_re_user_id = request.getParameter("re_user_id");
-		int con_id = Integer.valueOf(str_con_id);
-		int user_id = Integer.valueOf(str_user_id);
-		int re_user_id = Integer.valueOf(str_re_user_id);
-		Comment comment = new Comment();
-		comment.setComment_content(content);comment.setCon_id(con_id);
-		comment.setUser_id(user_id);
-		comment.setRe_user_id(re_user_id);
-		out.append(SchoolFriendGson.newInstance().toJson(new CommentService().save(comment)));
-		out.flush();
-		out.close();
+		AsyncContext context = request.startAsync(request, response);
+		addToQueue(new UserCommentRunnable(context));
 	}
 
 }

@@ -26,42 +26,37 @@ public class FileUploadController extends BaseServlet {
 			throws ServletException, IOException {
 		 PrintWriter out = response.getWriter();
 		 String label = request.getParameter("type");
-		 
-		 if(label== null || label.equals("")) {
-			 out.append("文件上传错误");
-		 }else{
-			 DiskFileItemFactory factory = new DiskFileItemFactory();
-			 ServletContext servletContext = this.getServletContext();
-			 File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-			 factory.setRepository(repository);
-			 ServletFileUpload upload = new ServletFileUpload(factory);
-			 // Parse the request
-			 try {
-				List<FileItem> items = upload.parseRequest(request);
-				boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-				if(isMultipart) {
-					 String path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("image_upload_default_path");
-					 if(label.equals("content")){
-						 path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("image_upload_path");
-					 }
-					FileUpload fileUpload = FileUploadContent.newInstance();
-					Iterator<FileItem> iter = items.iterator();
-					while (iter.hasNext()) {
-					    FileItem item = iter.next();
-					    if (item.isFormField()) {
-					    	fileUpload.processFormField(item);
-					    } else {
-							fileUpload.processUploadedFile(item, path);
-					    }
-					}
+		 DiskFileItemFactory factory = new DiskFileItemFactory();
+		 ServletContext servletContext = this.getServletContext();
+		 File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+		 factory.setRepository(repository);
+		 ServletFileUpload upload = new ServletFileUpload(factory);
+		 // Parse the request
+		 try {
+			List<FileItem> items = upload.parseRequest(request);
+			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+			if(isMultipart) {
+				 String path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("image_upload_default_path");
+				 if(label.equals("content")){
+					 path = getServletContext().getRealPath("/") +getServletContext().getInitParameter("image_upload_path");
+				 }
+				FileUpload fileUpload = FileUploadContent.newInstance();
+				Iterator<FileItem> iter = items.iterator();
+				while (iter.hasNext()) {
+				    FileItem item = iter.next();
+				    if (item.isFormField()) {
+				    	fileUpload.processFormField(item);
+				    } else {
+						fileUpload.processUploadedFile(item, path);
+				    }
 				}
-			} catch (FileUploadException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-		 }
-		out.flush();
-		out.close();
-	}
+		} catch (FileUploadException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	out.flush();
+	out.close();
+   }
 
 }

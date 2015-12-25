@@ -19,7 +19,6 @@ public class PraiseRunable implements Runnable {
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
 		try {
@@ -32,11 +31,10 @@ public class PraiseRunable implements Runnable {
 			int con_id = Integer.valueOf(strConId);
 			int user_id = Integer.valueOf(strUserId);
 			praise.setCon_id(con_id);praise.setUser_id(user_id);
-			praise.setPriceUserName("test");
+			praise.setPriceUserName(praiceUserName);
 			out.append(gson.toJson(new PraiseService().save(praise)));
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
