@@ -22,30 +22,28 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import com.nju.model.Content;
 import com.nju.service.UploadContentService;
 import com.nju.util.Constant;
-import com.nju.util.SchoolFriendGson;
 
-public class PublishTextWithPicsRunnable implements Runnable {
+public class PublishTextWithPicsRunnable extends BaseRunnable{
 
 	private AsyncContext asyncContext;
 	public PublishTextWithPicsRunnable(AsyncContext context) {
 		this.asyncContext = context;
 	}
+	
 	@Override
-	public void run() {
+	protected void exeRequest(PrintWriter out) throws IOException {
+		// TODO Auto-generated method stub
+		
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) asyncContext.getResponse();
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-			DiskFileItemFactory factory = new DiskFileItemFactory();
-			 ServletContext servletContext = request.getServletContext();
-			 File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-			 factory.setRepository(repository);
-			 ServletFileUpload upload = new ServletFileUpload(factory);
-			 String school = request.getParameter(Constant.SCHOOL);
-			 SchoolFriendGson gson = SchoolFriendGson.newInstance();
-			 // Parse the request
-			 try {
+		out = response.getWriter();
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletContext servletContext = request.getServletContext();
+		File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+		factory.setRepository(repository);
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		String school = request.getParameter(Constant.SCHOOL);
+		 try {
 				List<FileItem> items = upload.parseRequest(request);
 				boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 				Content content = new Content();
@@ -69,67 +67,60 @@ public class PublishTextWithPicsRunnable implements Runnable {
 				// TODO Auto-generated catch block
 				 out.print(gson.toJson(Constant.PUBLISH_WEIBO_ERROR));
 				 e.printStackTrace();
-			}
-		  } catch (IOException e) {
-			e.printStackTrace();
-		 } finally{
-			if(out!=null) {
-				out.close();
-	      }
-		}
+		 }
 		 
 	}
-		
-		public void processUploadedFile(FileItem item,String path,Content content,List<String> imageList) {
-			// TODO Auto-generated method stub
-			if (item.getName() != null && !item.getName().equals("")) { 
-	            UUID uuid = UUID.randomUUID();
-	            File dir = new File(path);
-	            if ( !dir.exists()) {
-	            	dir.mkdir();
-	            }
-	            StringBuilder fileName = new StringBuilder();
-	            for(String str:(uuid+"").split("-")){
-	            	fileName.append(str);
-	            }
-	            fileName.append(".jpg");
-	            File file = new File(dir,fileName.toString());
-	            try {
-					file.createNewFile();
-					
-		            item.write(file);
-		            imageList.add(fileName.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					 
-					e.printStackTrace();
-				}finally {
-					 
-				}   
-	        } else {
-	            System.out.println("文件为空");
-	        }
-		}
-		
-		public void processFormField(FileItem item,Content content) {
-			String name = item.getFieldName();
-			String value = item.getString();	 
-		    try {
-				value = new String(item.getString().getBytes("ISO8859_1"),"utf-8");
-				if (name != null ) {
-			    	if(name.equals("content")){
-			    		 content.setContent(value);
-			    	}else if(name.equals("user_id")) {
-			    		 content.setUser_id(Integer.valueOf(value));
-			    	} 
-			    }
-				} catch (UnsupportedEncodingException e) {
+	 
+	public void processUploadedFile(FileItem item,String path,Content content,List<String> imageList) {
+		// TODO Auto-generated method stub
+		if (item.getName() != null && !item.getName().equals("")) { 
+            UUID uuid = UUID.randomUUID();
+            File dir = new File(path);
+            if ( !dir.exists()) {
+            	dir.mkdir();
+            }
+            StringBuilder fileName = new StringBuilder();
+            for(String str:(uuid+"").split("-")){
+            	fileName.append(str);
+            }
+            fileName.append(".jpg");
+            File file = new File(dir,fileName.toString());
+            try {
+				file.createNewFile();
+				
+	            item.write(file);
+	            imageList.add(fileName.toString());
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}	 
-		}
-
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				 
+				e.printStackTrace();
+			}finally {
+				 
+			}   
+        } else {
+            System.out.println("文件为空");
+        }
+	}
+		
+	public void processFormField(FileItem item,Content content) {
+		String name = item.getFieldName();
+		String value = item.getString();	 
+	    try {
+			value = new String(item.getString().getBytes("ISO8859_1"),"utf-8");
+			if (name != null ) {
+		    	if(name.equals("content")){
+		    		 content.setContent(value);
+		    	}else if(name.equals("user_id")) {
+		    		 content.setUser_id(Integer.valueOf(value));
+		    	} 
+		    }
+			} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	 
+	}
+	
 }

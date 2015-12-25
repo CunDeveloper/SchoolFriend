@@ -15,7 +15,8 @@ import com.nju.runnable.UserRunnable;
 public class UserController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException   {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException   {
 		AsyncContext context = request.startAsync(request, response);
 		addToQueue(new UserRunnable(context));
 	}

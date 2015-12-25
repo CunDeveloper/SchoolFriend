@@ -11,34 +11,28 @@ import com.nju.model.Content;
 import com.nju.service.UploadContentService;
 import com.nju.util.Constant;
 
-public class PublishTextRunnable implements Runnable {
+public class PublishTextRunnable extends BaseRunnable {
 
 	private AsyncContext asyncContext;
 	public PublishTextRunnable(AsyncContext context) {
+		super();
 		this.asyncContext = context;
 	}
+ 
 	@Override
-	public void run() {
+	protected void exeRequest(PrintWriter out) throws IOException {
+		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-			String user_id = request.getParameter(Constant.USER_ID);
-			String text = request.getParameter(Constant.PUBLISH_TEXT);
-			String location = request.getParameter(Constant.USER_LOCATION);
-			Content content = new Content();
-			content.setUser_id(Integer.valueOf(user_id));
-			content.setContent(text);
-			content.setUserLocation(location);
-			int result =new UploadContentService().save(content);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally{
-			if(out!=null) {
-				out.close();
-			}
-		}
+		out = response.getWriter();
+		String user_id = request.getParameter(Constant.USER_ID);
+		String text = request.getParameter(Constant.PUBLISH_TEXT);
+		String location = request.getParameter(Constant.USER_LOCATION);
+		Content content = new Content();
+		content.setUser_id(Integer.valueOf(user_id));
+		content.setContent(text);
+		content.setUserLocation(location);
+		int result =new UploadContentService().save(content);
 	}
 
 }

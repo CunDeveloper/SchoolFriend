@@ -16,7 +16,8 @@ import com.nju.runnable.PublishTextWithPicsRunnable;
 public class UserPublishContentController extends BaseServlet {
 	private static final long serialVersionUID = 1L;
     
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AsyncContext context = request.startAsync(request, response);
 		addToQueue(new PublishTextWithPicsRunnable(context));
 	}
