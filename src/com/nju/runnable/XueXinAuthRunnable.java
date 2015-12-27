@@ -1,11 +1,15 @@
 package com.nju.runnable;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.AsyncContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,13 +27,13 @@ public class XueXinAuthRunnable extends BaseRunnable{
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) asyncContext.getResponse();
 		Authorization authorization = null;
-		out = response.getWriter();
-		OutputStream outPut = new WriterOutputStream(out);
+		 
+		OutputStream out = response.getOutputStream();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String captcha = request.getParameter("captcha");
@@ -44,9 +48,9 @@ public class XueXinAuthRunnable extends BaseRunnable{
 		if(captcha ==null || captcha.equals("")){ 
 			String result = service.login(username, password,label_id);
 			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
-				outPut.write(result.getBytes(UTF_8));
+				out.write(result.getBytes(UTF_8));
 			} else{
-				loginExe(authorization,result,request,response,outPut);
+				loginExe(authorization,result,request,response,out);
 			}
 			
 		}
@@ -54,11 +58,12 @@ public class XueXinAuthRunnable extends BaseRunnable{
  			String result = service.loginWithCaptcha(request.getSession().getAttribute(Constant.XUE_XIN_IT).toString(), username, password, captcha, label_id);
 			if(result.equals(Constant.HTTP_ERROR) || result.equals(Constant.HTTP_URL_ERROR)) {
 				//out.print(result);
-				outPut.write(result.getBytes(UTF_8));
+				out.write(result.getBytes(UTF_8));
 			} else{
-				loginExe(authorization,result,request,response,outPut);
+				loginExe(authorization,result,request,response,out);
 			}
 		}
+		out.close();
 	}
 
 	
@@ -71,11 +76,12 @@ public class XueXinAuthRunnable extends BaseRunnable{
 			request.getSession().setAttribute(Constant.XUE_XIN_IT,IT);
 			 
 			byte[] buffer =authorization.getCaptcha();
+			 
 			int length = buffer.length;
 			byte[] finBuffer = new byte[length+1];
 			System.arraycopy(buffer, 0, finBuffer, 0, length);
 			finBuffer[length]='#';
-			out.write(finBuffer);
+			out.write(buffer);
 		} else {
 			out.write(result.getBytes(UTF_8));
 		}

@@ -82,7 +82,9 @@ public class Content {
 		StringBuilder builder = new StringBuilder();
 		for(String str:imageList){
 			builder.append(str);
+			builder.append(",");
 		}
+		builder.deleteCharAt(builder.length()-1);
 		return builder.toString();
 	}
 	

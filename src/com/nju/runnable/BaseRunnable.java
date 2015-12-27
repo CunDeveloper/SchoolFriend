@@ -10,7 +10,7 @@ import com.nju.util.SchoolFriendGson;
 public abstract class BaseRunnable  implements Runnable{
 	protected Logger logger;
 	protected SchoolFriendGson gson;
-	protected abstract void exeRequest(PrintWriter out) throws IOException;
+	protected abstract void exeRequest() throws IOException;
 	
 	public BaseRunnable() {
 		super();
@@ -20,16 +20,12 @@ public abstract class BaseRunnable  implements Runnable{
 
 	@Override
 	public void run() {
-		PrintWriter out = null;
+		 
 		 try {
-			exeRequest(out);
+			exeRequest();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
-			if(out!=null){
-				out.close();
-			}
 		}
 	}
 }

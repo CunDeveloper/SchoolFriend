@@ -53,7 +53,6 @@ public class UploadContentService {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet set = stmt.executeQuery();
 			Content content = null;
-			List<String> urls = null;
 			while (set.next()) {
 				content = new Content();
 				int con_id = set.getInt(1);
@@ -65,16 +64,13 @@ public class UploadContentService {
 				int c_user_id = set.getInt(3);
 				content.setUser_id(c_user_id);
 				//content.setIs_contain_image(set.getInt(4));
-				int is_contain_img = set.getInt(4);
+				String urls = set.getString(4);
 				content.setDate(set.getString(5));
 				content.setLocation(set.getString(6));
-				urls = new ArrayList<String>();
-				if (is_contain_img == 1){
-					urls = queryContentPics(conn,con_id);
-				}
+				 
 				List<Comment> comments = queryComment(conn,user_id,c_user_id,con_id);
 				content.setCommentList(comments);
-				content.setImageList(urls);
+				content.stringToList(urls);
 				contents.add(content);
 			}
 		} catch (SQLException e) {
@@ -94,7 +90,7 @@ public class UploadContentService {
 	}
 
 	/**
-	 * 
+	 * have a problem ,note fix
 	 * @param visit_user_id 自己的ID
 	 * @param user_id 查询的用户的ID;
 	 * @return
@@ -104,12 +100,12 @@ public class UploadContentService {
 		List<ViewAUserContent> contents = new ArrayList<ViewAUserContent>();
 		try {
 			conn = C3PODataSource.getConn();
-			String sql ="SELECT id,cont,is_contain_image,date,user_location FROM content WHERE user_id=?";
+			String sql ="SELECT id,cont,pic_urls,date,user_location FROM content WHERE user_id=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1,user_id);
 			ResultSet set = stmt.executeQuery();
 			ViewAUserContent content = null;
-			List<String> urls = null;
+			 
 			while (set.next()) {
 				content = new ViewAUserContent();
 				int con_id = set.getInt(1);
@@ -118,17 +114,14 @@ public class UploadContentService {
 				content.setUser_id(user_id);
 				Praise praise = queryContentPraiseAnotherUser(conn,visit_user_id,con_id);
 			    content.setVisitUserPraise(praise);
-				int is_contain_img = set.getInt(3);
+				String urls = set.getString(3);
 				content.setDate(set.getString(4));
 				content.setLocation(set.getString(5));
-				content.setIs_contain_image(is_contain_img);
-				urls = new ArrayList<String>();
-				if (is_contain_img == 1){
-					urls = queryContentPics(conn,con_id);
-				}
+				 
+				 
 				List<Comment> comments = queryComment(conn,visit_user_id,user_id,con_id);
 				content.setCommentList(comments);
-				content.setImageList(urls);
+				//content.stringToList(urls);
 				contents.add(content);
 			}
 			return contents;
@@ -163,7 +156,6 @@ public class UploadContentService {
 			stmt.setInt(1,own_user_id);
 			ResultSet set = stmt.executeQuery();
 			Content content = null;
-			List<String> urls = null;
 			while (set.next()) {
 				content = new Content();
 				int con_id = set.getInt(1);
@@ -174,16 +166,13 @@ public class UploadContentService {
 				//content.setIs_contain_image(set.getInt(4));
 				content.setDate(set.getString(5));
 				content.setLocation(set.getString(6));
-				int is_contain_img = set.getInt(4);
-				urls = new ArrayList<String>();
-				if (is_contain_img == 1){
-					urls = queryContentPics(conn,con_id);
-				}
+				String urls = set.getString(4);
+				 
 				List<Comment> comments = queryOwnContentComment(conn,con_id);
 				List<Praise> praises = queryOwnPraice(conn,con_id);
 				content.setPraiseList(praises);
 				content.setCommentList(comments);
-				content.setImageList(urls);
+				content.stringToList(urls);
 				contents.add(content);
 			}
 		} catch (SQLException e) {

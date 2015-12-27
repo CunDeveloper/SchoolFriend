@@ -1,5 +1,6 @@
 package com.nju.runnable;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.imgscalr.Scalr;
 
 import com.nju.model.Content;
 import com.nju.service.UploadContentService;
@@ -31,12 +34,12 @@ public class PublishTextWithPicsRunnable extends BaseRunnable{
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		ServletContext servletContext = request.getServletContext();
 		File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
@@ -67,8 +70,8 @@ public class PublishTextWithPicsRunnable extends BaseRunnable{
 				// TODO Auto-generated catch block
 				 out.print(gson.toJson(Constant.PUBLISH_WEIBO_ERROR));
 				 e.printStackTrace();
-		 }
-		 
+		     }
+		 out.close();
 	}
 	 
 	public void processUploadedFile(FileItem item,String path,Content content,List<String> imageList) {
@@ -76,6 +79,7 @@ public class PublishTextWithPicsRunnable extends BaseRunnable{
 		if (item.getName() != null && !item.getName().equals("")) { 
             UUID uuid = UUID.randomUUID();
             File dir = new File(path);
+            logger.info(path);
             if ( !dir.exists()) {
             	dir.mkdir();
             }
@@ -87,7 +91,9 @@ public class PublishTextWithPicsRunnable extends BaseRunnable{
             File file = new File(dir,fileName.toString());
             try {
 				file.createNewFile();
-				
+				BufferedImage image = ImageIO.read(item.getInputStream());
+				BufferedImage aimg = Scalr.resize(image,50);
+				ImageIO.write(aimg,"png",new File(path+"/hehe.png"));
 	            item.write(file);
 	            imageList.add(fileName.toString());
 			} catch (IOException e) {

@@ -92,7 +92,7 @@ public class ValidateFilter extends BaseFilter {
 	private boolean  isRight(final String path,final ServletRequest request){
 		switch(path){
 		case Constant.XUE_XIN_AUTH_CONTROLLER:
-			return !isContainEmpty(request);
+			return true;
 		case Constant.FILE_UPLOAD_CONTROLLER:
 			return !isContainEmpty(request);
 		case Constant.FILE_UPLOAD_USER_CONTROLLER:

@@ -33,11 +33,11 @@ public class UserIconUploadRunnable extends BaseRunnable{
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String school = request.getParameter(Constant.SCHOOL);
 		String label_id = request.getParameter(Constant.LABEL_ID);
 		User user = new User();
@@ -70,6 +70,7 @@ public class UserIconUploadRunnable extends BaseRunnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		out.close();
 		
 	}
 	

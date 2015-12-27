@@ -18,6 +18,7 @@ public class UploadContentDaoImpl extends BaseDaoImpl<Content> {
 		stmt.setString(1,content.getContent());
 		stmt.setInt(2,content.getUser_id());
 		stmt.setString(3,content.listToString());
+		System.out.println(content.listToString()+"++++++++++++++++++++++++++");
 		stmt.setString(4,content.getUserLocation());
 	    stmt.executeUpdate();
 	}

@@ -20,11 +20,11 @@ public class PublishTextRunnable extends BaseRunnable {
 	}
  
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String user_id = request.getParameter(Constant.USER_ID);
 		String text = request.getParameter(Constant.PUBLISH_TEXT);
 		String location = request.getParameter(Constant.USER_LOCATION);
@@ -33,6 +33,7 @@ public class PublishTextRunnable extends BaseRunnable {
 		content.setContent(text);
 		content.setUserLocation(location);
 		int result =new UploadContentService().save(content);
+		out.close();
 	}
 
 }

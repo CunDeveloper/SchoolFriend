@@ -19,11 +19,11 @@ public class UserCommentRunnable extends BaseRunnable {
 	}
 
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String content = request.getParameter("content");
 		String str_con_id = request.getParameter("con_id");
 		String str_user_id = request.getParameter("user_id");
@@ -36,6 +36,7 @@ public class UserCommentRunnable extends BaseRunnable {
 		comment.setUser_id(user_id);
 		comment.setRe_user_id(re_user_id);
 		out.append(gson.toJson(new CommentService().save(comment)));
+		out.close();
 	}
 
 }

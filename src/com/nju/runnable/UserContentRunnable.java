@@ -23,11 +23,11 @@ public class UserContentRunnable extends BaseRunnable {
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String label = request.getParameter(Constant.LABLE);
 		String str_user_id = request.getParameter(Constant.USER_ID);
 		int user_id = Integer.valueOf(str_user_id);
@@ -53,6 +53,7 @@ public class UserContentRunnable extends BaseRunnable {
 			break;
 		  }
 	   }
+		out.close();
 	}
 	 
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException{

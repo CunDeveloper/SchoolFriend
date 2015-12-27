@@ -20,10 +20,10 @@ public class PraiseRunable extends BaseRunnable {
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String strConId = request.getParameter("con_id");
 		String strUserId = request.getParameter(Constant.USER_ID);
 		String praiceUserName = request.getParameter("praiceUserName");
@@ -31,8 +31,9 @@ public class PraiseRunable extends BaseRunnable {
 		int con_id = Integer.valueOf(strConId);
 		int user_id = Integer.valueOf(strUserId);
 		praise.setCon_id(con_id);praise.setUser_id(user_id);
-		praise.setPriceUserName(praiceUserName);
+		praise.setPriceUserName("test");
 		out.append(gson.toJson(new PraiseService().save(praise)));
+		out.close();
 	}
 
 }

@@ -18,11 +18,11 @@ public class UserRunnable extends BaseRunnable{
 	}
 	
 	@Override
-	protected void exeRequest(PrintWriter out) throws IOException {
+	protected void exeRequest() throws IOException {
 		// TODO Auto-generated method stub
 		HttpServletRequest request =(HttpServletRequest) asyncContext.getRequest();
 		HttpServletResponse  response = (HttpServletResponse) asyncContext.getResponse();
-		out = response.getWriter();
+		PrintWriter out = response.getWriter();
 		String userName = request.getParameter("username");
 		String password = request.getParameter("password");
 		//String diviceID = request.getParameter("divice_id");
@@ -33,6 +33,7 @@ public class UserRunnable extends BaseRunnable{
 		}else{
 			out.append("登录失败");
 		}
+		out.close();
 	}
 
 }
