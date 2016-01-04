@@ -65,10 +65,10 @@ public class PublishTextWithPicsRunnable extends BaseRunnable{
 					}
 				}
 				content.setImageList(imageList);
-			   out.print(gson.toJson(new UploadContentService().save(content)));
+			   out.append(gson.toJson(new UploadContentService().save(content)));
 			 } catch (FileUploadException e) {
 				// TODO Auto-generated catch block
-				 out.print(gson.toJson(Constant.PUBLISH_WEIBO_ERROR));
+				 out.append(gson.toJson(Constant.PUBLISH_WEIBO_ERROR));
 				 e.printStackTrace();
 		     }
 		 out.close();

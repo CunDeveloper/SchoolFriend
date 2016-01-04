@@ -32,7 +32,7 @@ public class PublishTextRunnable extends BaseRunnable {
 		content.setUser_id(Integer.valueOf(user_id));
 		content.setContent(text);
 		content.setUserLocation(location);
-		int result =new UploadContentService().save(content);
+		out.append(gson.toJson(new UploadContentService().save(content)));
 		out.close();
 	}
 

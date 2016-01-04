@@ -84,7 +84,9 @@ public class Content {
 			builder.append(str);
 			builder.append(",");
 		}
-		builder.deleteCharAt(builder.length()-1);
+		if (imageList.size()>0) {
+			builder.deleteCharAt(builder.length()-1);
+		}
 		return builder.toString();
 	}
 	

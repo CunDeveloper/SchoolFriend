@@ -81,7 +81,7 @@ public class XueXinAuthRunnable extends BaseRunnable{
 			byte[] finBuffer = new byte[length+1];
 			System.arraycopy(buffer, 0, finBuffer, 0, length);
 			finBuffer[length]='#';
-			out.write(buffer);
+			out.write(finBuffer);
 		} else {
 			out.write(result.getBytes(UTF_8));
 		}
